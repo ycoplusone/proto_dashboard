@@ -159,6 +159,7 @@ docs/                     # 문서 보관 (데이터 파일은 넣지 않음)
   - Plotly 차트는 Streamlit 테마를 따르지 않는다. 강조색·글자색은 `palette()`로 받고, 차트는 `themed(fig)`를 거쳐 그린다(밝은 테마용 배경·글자·회색을 지금 테마 색으로 바꿈, 범주 색 `SERIES`는 그대로). `card()`·`insight_card()`는 자동 처리.
   - `utils/` 모듈을 고치면 실행 중인 서버를 다시 켜야 반영된다.
 - (2026-10-21) git 저장소로 등록하고 GitHub `https://github.com/ycoplusone/proto_dashboard.git`의 `main` 브랜치에 push했다. `.venv/`·`.env`는 올리지 않는다(.gitignore).
+- (2026-10-21) `data/`의 데이터 파일도 git에 함께 올린다. 실제 데이터도 사용자가 가공해서 가져오므로 그대로 커밋·push해도 된다 (사용자 확인).
 
 ## 다음 작업 (2026-10-21 예정)
 
