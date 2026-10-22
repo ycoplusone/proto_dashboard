@@ -1,35 +1,35 @@
-# active-theme: modern
+# active-theme: ocean
 [server]
 port = 8501
 runOnSave = true
 
-# 테마: 모던 블루 — '도구 > 테마 바꾸기' 화면에서 바꾸면 아래가 다시 써진다 (utils/theme.py)
+# 테마: 오션 틸 — '도구 > 테마 바꾸기' 화면에서 바꾸면 아래가 다시 써진다 (utils/theme.py)
 [theme]
 base = "light"
-primaryColor = "#2a78d6"
+primaryColor = "#0F766E"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F4F6F9"
-textColor = "#1F2937"
-borderColor = "#E6E8EC"
-linkColor = "#2a78d6"
+secondaryBackgroundColor = "#EFF7F6"
+textColor = "#102A2A"
+borderColor = "#D6E9E6"
+linkColor = "#0F766E"
 showWidgetBorder = true
 showSidebarBorder = true
-baseRadius = "12px"
-buttonRadius = "12px"
-font = "'Pretendard Variable':https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+baseRadius = "10px"
+buttonRadius = "10px"
+font = "'IBM Plex Sans KR':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap"
 baseFontSize = 15
 headingFontSizes = ["30px", "22px", "18px", "16px", "15px", "14px"]
 headingFontWeights = [700, 700, 600, 600, 600, 600]
 metricValueFontSize = "2rem"
 metricValueFontWeight = 700
 linkUnderline = false
-dataframeHeaderBackgroundColor = "#F4F6F9"
-dataframeBorderColor = "#E6E8EC"
+dataframeHeaderBackgroundColor = "#EFF7F6"
+dataframeBorderColor = "#D6E9E6"
 
 [theme.sidebar]
-backgroundColor = "#F8F9FB"
-secondaryBackgroundColor = "#EEF1F5"
-textColor = "#1F2937"
-borderColor = "#E6E8EC"
-primaryColor = "#2a78d6"
-linkColor = "#2a78d6"
+backgroundColor = "#F2F9F8"
+secondaryBackgroundColor = "#E0F0EE"
+textColor = "#102A2A"
+borderColor = "#D6E9E6"
+primaryColor = "#0F766E"
+linkColor = "#0F766E"
