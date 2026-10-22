@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 .env
 .streamlit/secrets.toml
+
+# 윈도우에서 복사할 때 생기는 부가 정보 파일
+*:Zone.Identifier
+*:RVContext

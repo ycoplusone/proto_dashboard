@@ -11,6 +11,13 @@ pg = st.navigation(
         "시작": [
             st.Page("app_pages/home.py", title="홈", icon=":material/home:", default=True),
         ],
+        "일별실적": [
+            st.Page("app_pages/daily/summary.py", title="한눈에 보기", icon=":material/dashboard:", url_path="daily-summary"),
+            st.Page("app_pages/daily/business.py", title="사업·고객유형별", icon=":material/category:", url_path="daily-business"),
+            st.Page("app_pages/daily/so.py", title="SO별", icon=":material/apartment:", url_path="daily-so"),
+            st.Page("app_pages/daily/pattern.py", title="요일·월말·대량 건", icon=":material/calendar_month:", url_path="daily-pattern"),
+            st.Page("app_pages/daily/gallery.py", title="다양한 차트 (갤러리)", icon=":material/collections:", url_path="daily-gallery"),
+        ],
         "현업용 보고서": [
             st.Page("app_pages/report/simple.py", title="가장 단순한 샘플", icon=":material/looks_one:", url_path="report-simple"),
             st.Page("app_pages/report/monthly.py", title="월간 보고서", icon=":material/description:", url_path="report-monthly"),

@@ -73,6 +73,7 @@ app.py                    # 진입점, 페이지 네비게이션 등록 (st.navi
 app_pages/                # 페이지별 화면
   home.py                 # 홈 (모든 화면 링크)
   theme.py                # 테마 바꾸기 (15종 미리 보기·적용)
+  daily/                  # 일별실적 5개 화면 (한눈에·사업별·SO별·요일월말대량·갤러리), 데이터 z99_2025년실적자료
   report/simple.py        # 가장 단순한 샘플 (03_월별요약, 카드형 디자인 기준 화면)
   report/monthly.py       # 현업용 월간 보고서 (03_월별요약)
   report/churn.py         # 현업용 해지 고객 보고서 (04_해지요약 + 02 명단)
@@ -82,6 +83,7 @@ utils/
   data.py                 # 샘플 데이터 로딩
   contracts.py            # 01_계약현황 로딩·집계, 지도 경계 로딩(load_geo)
   customers.py            # 02_고객현황 로딩·월별 집계·그룹별 해지율
+  daily.py                # z99_2025년실적자료 로딩(한글 컬럼, 순증 계산)·공통 차트 헬퍼
   theme.py                # 테마 15종, config.toml 다시 쓰기(apply_theme), 차트 색 맞추기(palette, themed)
   viz.py                  # 차트 공통 팔레트·Plotly 템플릿·카드 헬퍼
 data/                     # 엑셀 데이터 파일
@@ -160,6 +162,10 @@ docs/                     # 문서 보관 (데이터 파일은 넣지 않음)
   - `utils/` 모듈을 고치면 실행 중인 서버를 다시 켜야 반영된다.
 - (2026-10-21) git 저장소로 등록하고 GitHub `https://github.com/ycoplusone/proto_dashboard.git`의 `main` 브랜치에 push했다. `.venv/`·`.env`는 올리지 않는다(.gitignore).
 - (2026-10-21) `data/`의 데이터 파일도 git에 함께 올린다. 실제 데이터도 사용자가 가공해서 가져오므로 그대로 커밋·push해도 된다 (사용자 확인).
+- (2026-10-22) 첫 실제 데이터 `data/z99_2025년실적자료.xlsx` (2025년 일자 × SO × 사업(ISP/DTV) × 고객유형(MASS/BIZ), 설치·해지 건과 금액). 정의서 `docs/datasets/z99_2025년실적자료.md`. 메뉴 대분류 **일별실적** 아래에 5개 화면(`/daily-summary`, `-business`, `-so`, `-pattern`, `-gallery`).
+  - 원본 컬럼명(BASE_DT 등)은 그대로 두고 `utils/daily.py`에서 한글로 바꾼다.
+  - 건수에 +5 가공 흔적이 있다(실제 0건 → 5건으로 추정, 사용자 확인 전). 순증과 금액은 영향이 없으므로 결론은 순증·금액 중심으로 쓰고, 건당 금액은 쓰지 않는다.
+  - 한국어 조사는 `utils.daily.josa()`로 붙인다 (예: "경기은" 오류 방지).
 
 ## 다음 작업 (2026-10-21 예정)
 
