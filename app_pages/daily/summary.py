@@ -78,7 +78,7 @@ with c2:
             fig.add_annotation(x=x[i], y=cum.iloc[i], text=signed(cum.iloc[i]), showarrow=False, yshift=-18,
                                font=dict(color=INK, size=13))
         fig.update_yaxes(visible=False, range=[cum.min() * 1.15, abs(cum.min()) * 0.1])
-        fig.update_xaxes(showgrid=False, tickfont=dict(color=INK, size=12))
+        fig.update_xaxes(showgrid=False, tickangle=0, tickfont=dict(color=INK, size=12))
         fig.update_layout(showlegend=False)
         show(fig)
 
