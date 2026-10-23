@@ -7,3 +7,6 @@ __pycache__/
 # 윈도우에서 복사할 때 생기는 부가 정보 파일
 *:Zone.Identifier
 *:RVContext
+
+# 100MB가 넘는 원본 CSV (GitHub에 올라가지 않음). 화면은 같은 이름의 .parquet를 쓴다 (scripts/convert_z98.py)
+data/z98_2025년12월계약현황.csv
