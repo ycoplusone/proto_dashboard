@@ -64,19 +64,19 @@ with st.container(border=True):
                 if (sb["DTV"] < 0).all() else f"##### ISP가 순증한 SO는 {n_so}곳 중 {isp_up}곳이에요")
     st.caption("SO별 사업별 연간 순증 건수 · 파랑 = ISP, 회색 = DTV")
     fig = go.Figure([
-        go.Bar(x=sb.index, y=sb["ISP"], name="ISP", marker=dict(color=BLUE, cornerradius=4),
+        go.Bar(y=sb.index, x=sb["ISP"], name="ISP", orientation="h", marker=dict(color=BLUE, cornerradius=4),
                text=[signed(v, "") for v in sb["ISP"]], textposition="outside", cliponaxis=False,
-               hovertemplate="%{x} ISP: %{y:+,}건<extra></extra>"),
-        go.Bar(x=sb.index, y=sb["DTV"], name="DTV", marker=dict(color=GRAY, cornerradius=4),
+               hovertemplate="%{y} ISP: %{x:+,}건<extra></extra>"),
+        go.Bar(y=sb.index, x=sb["DTV"], name="DTV", orientation="h", marker=dict(color=GRAY, cornerradius=4),
                text=[signed(v, "") for v in sb["DTV"]], textposition="outside", cliponaxis=False,
-               hovertemplate="%{x} DTV: %{y:+,}건<extra></extra>"),
+               hovertemplate="%{y} DTV: %{x:+,}건<extra></extra>"),
     ])
     fig.update_traces(textfont=dict(color=INK, size=10))
-    fig.update_layout(barmode="group", bargap=0.25, showlegend=False)
-    fig.add_hline(y=0, line=dict(color=P["muted"], width=1))
-    fig.update_yaxes(visible=False, range=[sb.min().min() * 1.2, max(sb.max().max(), 0) + abs(sb.min().min()) * 0.15])
-    fig.update_xaxes(showgrid=False, side="top", tickfont=dict(color=INK, size=12))
-    show(fig, height=340)
+    fig.update_layout(barmode="group", bargap=0.2, bargroupgap=0.05, showlegend=False)
+    fig.add_vline(x=0, line=dict(color=P["muted"], width=1))
+    fig.update_xaxes(visible=False, range=[sb.min().min() * 1.25, max(sb.max().max(), 0) + abs(sb.min().min()) * 0.2])
+    fig.update_yaxes(showgrid=False, autorange="reversed", tickfont=dict(color=INK, size=12))
+    show(fig, height=640)
 
 # ---------------------------------------------------------------- 표: SO × 월 순증
 with st.container(border=True):

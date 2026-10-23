@@ -48,7 +48,7 @@ with c1:
                                text=[signed(v) for v in s["순증건"]], textposition="outside", cliponaxis=False,
                                textfont=dict(color=INK, size=13), hovertemplate="%{y}: %{x:+,}건<extra></extra>"))
         span = s["순증건"].abs().max()
-        fig.update_xaxes(visible=False, range=[s["순증건"].min() - span * 0.35, max(s["순증건"].max(), 0) + span * 0.35])
+        fig.update_xaxes(visible=False, range=[s["순증건"].min() - span * 0.6, max(s["순증건"].max(), 0) + span * 0.35])
         fig.update_yaxes(tickfont=dict(color=INK, size=13), autorange="reversed")
         show(fig, height=280)
 

@@ -103,8 +103,8 @@ def theme_toml(key: str) -> str:
         f"baseRadius = {_q(t['radius'])}",
         f"buttonRadius = {_q(t['radius'])}",
         f"font = {_q(t['font'])}",
-        "baseFontSize = 15",
-        '''headingFontSizes = ["30px", "22px", "18px", "16px", "15px", "14px"]''',
+        "baseFontSize = 17",
+        '''headingFontSizes = ["32px", "24px", "20px", "18px", "17px", "16px"]''',
         "headingFontWeights = [700, 700, 600, 600, 600, 600]",
         '''metricValueFontSize = "2rem"''',
         "metricValueFontWeight = 700",
@@ -156,13 +156,44 @@ _LIGHT = {"#fcfcfb": "bg", "#0b0b0b": "ink", "#52514e": "muted", "#898781": "mut
           "#c3c2b7": "neutral", "#e1e0d9": "grid", "white": "bg", "#ffffff": "bg"}
 
 
+FONT_BUMP = 2  # 차트 글자를 모두 이만큼(px) 키운다. 화면 글자(baseFontSize)와 같이 맞춘다.
+
+
+def _bump_fonts(node, in_font: bool = False):
+    """'font'가 들어간 키(font, textfont, tickfont 등) 아래의 size만 키운다. 마커·선 크기는 그대로."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if in_font and k == "size" and isinstance(v, (int, float)):
+                node[k] = v + FONT_BUMP
+            elif in_font and k == "size" and isinstance(v, list):
+                node[k] = [x + FONT_BUMP if isinstance(x, (int, float)) else x for x in v]
+            else:
+                _bump_fonts(v, "font" in k.lower())
+    elif isinstance(node, list):
+        for v in node:
+            _bump_fonts(v, in_font)
+
+
 def themed(fig: go.Figure) -> go.Figure:
-    """밝은 바탕 기준으로 만든 차트의 배경·글자·회색을 지금 테마 색으로 바꾼다. 범주 색은 그대로 둔다."""
+    """밝은 바탕 기준으로 만든 차트의 배경·글자·회색을 지금 테마 색으로 바꾸고, 글자를 FONT_BUMP만큼 키운다.
+    범주 색은 그대로 둔다."""
     p = palette()
     fig.update_layout(font_family=p["font"])  # 차트 글꼴도 테마 글꼴로
-    if active() == DEFAULT:
-        return fig
+    if fig.layout.font.size is None and not (fig.layout.template and fig.layout.template.layout.font.size):
+        fig.update_layout(font_size=12)  # 기본 글자 크기도 키울 수 있게 적어 둔다
+    if fig.layout.uniformtext.minsize:
+        fig.update_layout(uniformtext_minsize=fig.layout.uniformtext.minsize + FONT_BUMP)
     spec = fig.to_json()  # plotly 인코더라 numpy 배열도 그대로 옮겨진다
-    for old, role in _LIGHT.items():
-        spec = re.sub(re.escape(f'"{old}"'), f'"{p[role]}"', spec, flags=re.I)
-    return pio.from_json(spec)
+    if active() != DEFAULT:
+        for old, role in _LIGHT.items():
+            spec = re.sub(re.escape(f'"{old}"'), f'"{p[role]}"', spec, flags=re.I)
+    d = json.loads(spec)
+    _bump_fonts(d.get("data"))
+    for tr in d.get("data") or []:  # 커진 막대 값 글자가 막대 폭에 맞춰 다시 작아지지 않게
+        if tr.get("type") in ("bar", "waterfall") and "constraintext" not in tr:
+            tr["constraintext"] = "none"
+    _bump_fonts(d.get("layout"))
+    # 툴팁(마우스를 올리면 나오는 상자) 글자: 따로 정하지 않았으면 Plotly 기본 13에 FONT_BUMP를 더한다
+    tip = d.setdefault("layout", {}).setdefault("hoverlabel", {}).setdefault("font", {})
+    tip.setdefault("size", 13 + FONT_BUMP)
+    return pio.from_json(json.dumps(d))

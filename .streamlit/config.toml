@@ -17,8 +17,8 @@ showSidebarBorder = true
 baseRadius = "10px"
 buttonRadius = "10px"
 font = "'IBM Plex Sans KR':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap"
-baseFontSize = 15
-headingFontSizes = ["30px", "22px", "18px", "16px", "15px", "14px"]
+baseFontSize = 17
+headingFontSizes = ["32px", "24px", "20px", "18px", "17px", "16px"]
 headingFontWeights = [700, 700, 600, 600, 600, 600]
 metricValueFontSize = "2rem"
 metricValueFontWeight = 700

@@ -163,6 +163,7 @@ docs/                     # 문서 보관 (데이터 파일은 넣지 않음)
 - (2026-10-21) git 저장소로 등록하고 GitHub `https://github.com/ycoplusone/proto_dashboard.git`의 `main` 브랜치에 push했다. `.venv/`·`.env`는 올리지 않는다(.gitignore).
 - (2026-10-21) `data/`의 데이터 파일도 git에 함께 올린다. 실제 데이터도 사용자가 가공해서 가져오므로 그대로 커밋·push해도 된다 (사용자 확인).
 - (2026-10-22) 앞으로 push는 `main`이 아니라 **`test2026` 브랜치**로 한다 (`git push origin test2026`). main에는 직접 push하지 않는다.
+- (2026-10-22) 글자를 전체적으로 2px 키웠다. 화면 글자는 `utils/theme.py`의 `baseFontSize = 17`·`headingFontSizes`(테마 15종 공통), 차트 글자는 `themed()`가 모든 font size에 `FONT_BUMP`(2)를 더한다. 그래서 페이지 코드의 `size=12` 같은 값은 실제로 14로 보인다. 막대 값 글자는 막대 폭에 맞춰 줄어들지 않게 `constraintext="none"`을 기본으로 둔다.
 - (2026-10-22) 첫 실제 데이터 `data/z99_2025년실적자료.xlsx` (2025년 일자 × SO × 사업(ISP/DTV) × 고객유형(MASS/BIZ), 설치·해지 건과 금액). 정의서 `docs/datasets/z99_2025년실적자료.md`. 메뉴 대분류 **일별실적** 아래에 5개 화면(`/daily-summary`, `-business`, `-so`, `-pattern`, `-gallery`).
   - 원본 컬럼명(BASE_DT 등)은 그대로 두고 `utils/daily.py`에서 한글로 바꾼다.
   - 건수에 +5 가공 흔적이 있다(실제 0건 → 5건으로 추정, 사용자 확인 전). 순증과 금액은 영향이 없으므로 결론은 순증·금액 중심으로 쓰고, 건당 금액은 쓰지 않는다.
