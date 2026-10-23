@@ -18,6 +18,52 @@ with st.container(border=True):
         st.page_link("app_pages/daily/gallery.py", label="다양한 차트 (갤러리) — 캘린더·워터폴·히트맵 등", icon=":material/collections:")
 
 with st.container(border=True):
+    st.subheader("인사이트")
+    st.caption("차트를 줄이고 숫자·그림으로 바로 읽히게 만든 화면 · 계약현황(z98)과 일별실적(z99)")
+    c1, c2, c3 = st.columns(3)
+    c1.page_link("app_pages/insight/feed.py", label="인사이트 피드 — 큰 숫자 + 한 문장", icon=":material/lightbulb:")
+    c2.page_link("app_pages/insight/tree.py", label="분해 트리 — 어느 가지가 만들었나", icon=":material/account_tree:")
+    c3.page_link("app_pages/insight/people.py", label="100명 그림 — 비율을 사람 아이콘으로", icon=":material/groups:")
+
+with st.container(border=True):
+    st.subheader("기간분석")
+    st.caption("일별실적 자료(z99)를 기간으로 보는 리포트 · 하루, 한 주, 한 달, 1년")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/period/briefing.py", label="하루 브리핑 — 그날을 평소 같은 요일과 비교", icon=":material/today:")
+        st.page_link("app_pages/period/pace.py", label="월 마감 페이스 — 이번 달이 빠른가 느린가", icon=":material/speed:")
+        st.page_link("app_pages/period/anomaly.py", label="평소와 다른 날 — 정상 범위를 벗어난 날", icon=":material/crisis_alert:")
+        st.page_link("app_pages/period/timeline.py", label="1년을 한 장으로 — 순증선 위의 사건들", icon=":material/timeline:")
+    with c2:
+        st.page_link("app_pages/period/rank.py", label="SO 순위 변동 — 누가 올라오고 떨어졌나", icon=":material/leaderboard:")
+        st.page_link("app_pages/period/weekly.py", label="주간 성적표 — 이번 주 vs 최근 4주", icon=":material/date_range:")
+        st.page_link("app_pages/period/month_calendar.py", label="달력 보고서 — 12개월 달력에 순증 숫자", icon=":material/calendar_month:")
+
+with st.container(border=True):
+    st.subheader("월별계약별")
+    st.caption("2025년 12월 말 계약 현황(z98_2025년12월계약현황, 265만 건) · 계약 × 서비스(TV/인터넷) 1건 = 1행")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/contract/summary.py", label="한눈에 보기 — 가입 건수·고객·청구금액·상태", icon=":material/dashboard:")
+        st.page_link("app_pages/contract/product.py", label="상품별 — 상품군 건수·청구·해지 대기", icon=":material/inventory_2:")
+        st.page_link("app_pages/contract/region.py", label="SO·지역별 — SO·시군구 순위", icon=":material/apartment:")
+    with c2:
+        st.page_link("app_pages/contract/tenure.py", label="약정·가입 시기 — 약정 기간과 가입 연도", icon=":material/event:")
+        st.page_link("app_pages/contract/risk.py", label="해지 대기 명단 — 누가 떠나려 하나", icon=":material/person_remove:")
+
+with st.container(border=True):
+    st.subheader("ARPU")
+    st.caption("계약현황(z98)의 청구금액으로 본 고객 1명당(ARPU)·계약 1건당(ARPC) 매출 · 사용 중인 유료 계약 기준")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/arpu/summary.py", label="ARPU·ARPC 한눈에 보기 — 사업·상품군별 단가", icon=":material/payments:")
+        st.page_link("app_pages/arpu/bundle.py", label="결합 고객의 가치 — 결합하면 얼마나 더 내고 덜 떠나나", icon=":material/join_inner:")
+        st.page_link("app_pages/arpu/so.py", label="SO별 ARPC와 그 이유 — 상품 구성 vs 단가", icon=":material/apartment:")
+    with c2:
+        st.page_link("app_pages/arpu/top.py", label="매출 집중도와 VIP — 상위 고객과 위험 매출", icon=":material/workspace_premium:")
+        st.page_link("app_pages/arpu/tenure.py", label="가입 시기·약정별 ARPC — 오래된 계약의 단가", icon=":material/history:")
+
+with st.container(border=True):
     st.subheader("현업용 보고서")
     st.caption("숫자 · 막대 · 선 · 표 4가지만 써서, 위에서 아래로 읽으면 끝나는 한 장짜리 보고서")
     st.page_link("app_pages/report/simple.py", label="가장 단순한 샘플 — 질문 하나에 숫자·막대·선·표 하나씩", icon=":material/looks_one:")

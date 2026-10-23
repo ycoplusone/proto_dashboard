@@ -48,6 +48,14 @@ def josa(word: str, pair: str) -> str:
     return word + (pair[0] if has_final else pair[1])
 
 
+def ida(word: str, between: str = "") -> str:
+    """'광랜' → '광랜이에요', '8VSB' → '8VSB예요'. 영문·숫자로 끝나면 받침 없음으로 본다.
+    between은 단어와 '이에요' 사이에 넣을 글자 (예: 괄호 설명)."""
+    ch = word[-1]
+    final = "가" <= ch <= "힣" and (ord(ch) - 0xAC00) % 28 != 0
+    return word + between + ("이에요" if final else "예요")
+
+
 def signed(n: float, unit: str = "건") -> str:
     """+1,234건 / -1,234건."""
     return f"{n:+,.0f}{unit}"
