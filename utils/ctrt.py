@@ -1,4 +1,4 @@
-"""z98_2025년12월계약현황 (2025년 12월 말 계약 스냅샷, 약 265만 건) 로딩과 공통 집계.
+"""z98_2025년12월계약현황 (2025년 12월 말 계약 스냅샷, 약 261만 건, 매각한 서초 제외) 로딩과 공통 집계.
 
 원본 CSV는 scripts/convert_z98.py로 Parquet로 바꿔 두고, 여기서는 Parquet만 읽는다.
 원본 컬럼(CUST_ID, CTRT_ID, ...)을 화면용 한글 이름으로 바꾼다. 정의서: docs/datasets/z98_2025년12월계약현황.md
@@ -21,6 +21,7 @@ BIZ = {"I": "ISP", "D": "DTV"}
 PROM = {0: "0개월", 12: "12개월", 24: "24개월", 36: "36개월", 42: "42개월"}
 PROM_ORDER = ["빈 값", "0개월", "12개월", "24개월", "36개월", "42개월"]
 STATE_ORDER = ["사용중", "해지 대기", "정지", "기타"]
+SOLD_SO = ["서초"]  # 매각한 SO. 모든 화면에서 뺀다 (2026-10-26 사용자 확인)
 
 
 def state_group(name: str) -> str:
@@ -42,9 +43,11 @@ def region(addr: str) -> str:
     return p[0].replace("특별시", "").replace("광역시", "").replace("시", "").replace("도", "")[:2] + " " + p[1]
 
 
-@st.cache_resource(show_spinner="계약 데이터 265만 건을 읽고 있어요…")
+@st.cache_resource(show_spinner="계약 데이터 261만 건을 읽고 있어요…")
 def load() -> pd.DataFrame:
     df = pd.read_parquet(PATH)
+    df = df[~df["SO_NM"].isin(SOLD_SO)].reset_index(drop=True)
+    df["SO_NM"] = df["SO_NM"].cat.remove_unused_categories()
     df = df.rename(columns={"CUST_ID": "고객ID", "CTRT_ID": "계약ID", "SO_NM": "SO", "B2X_TYPE": "고객유형",
                             "PROD_NM": "상품명", "CTRT_STAT_NM": "세부상태", "PROM_CNT": "약정개월",
                             "KPI_SVC_GRP": "상품군", "ADDR": "주소", "BILL_AMT": "청구금액", "CNT": "수량"})
