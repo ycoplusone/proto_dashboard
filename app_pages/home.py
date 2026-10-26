@@ -41,7 +41,7 @@ with st.container(border=True):
 
 with st.container(border=True):
     st.subheader("월별계약별")
-    st.caption("2025년 12월 말 계약 현황(z98_2025년12월계약현황, 265만 건) · 계약 × 서비스(TV/인터넷) 1건 = 1행")
+    st.caption("2025년 12월 말 계약 현황(z98_2025년12월계약현황, 261만 건, 매각한 서초 제외) · 계약 × 서비스(TV/인터넷) 1건 = 1행")
     c1, c2 = st.columns(2)
     with c1:
         st.page_link("app_pages/contract/summary.py", label="한눈에 보기 — 가입 건수·고객·청구금액·상태", icon=":material/dashboard:")
@@ -50,6 +50,17 @@ with st.container(border=True):
     with c2:
         st.page_link("app_pages/contract/tenure.py", label="약정·가입 시기 — 약정 기간과 가입 연도", icon=":material/event:")
         st.page_link("app_pages/contract/risk.py", label="해지 대기 명단 — 누가 떠나려 하나", icon=":material/person_remove:")
+
+with st.container(border=True):
+    st.subheader("월별 해지율")
+    st.caption("월말 가입 현황(z96_월말가입현황, 2024-01 ~ 2025-12, 매각한 서초 제외) · 1,000건 중 몇 건이 해지했나")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/rate/summary.py", label="한눈에 보기 — 월 해지율, 올해 vs 작년", icon=":material/dashboard:")
+        st.page_link("app_pages/rate/segment.py", label="사업·고객유형별 — TV/인터넷 × 개인/기업", icon=":material/category:")
+    with c2:
+        st.page_link("app_pages/rate/so.py", label="SO별 — 순위, 작년 대비, 고객 구성 감안", icon=":material/apartment:")
+        st.page_link("app_pages/rate/flow.py", label="설치와 해지 — 순감은 왜 커졌나, 청구금액", icon=":material/swap_vert:")
 
 with st.container(border=True):
     st.subheader("ARPU")

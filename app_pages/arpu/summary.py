@@ -26,7 +26,7 @@ k3.metric("ARPU (기업 BIZ)", won(biz["청구금액"].mean()), border=True,
           help=f"기업 고객 {len(biz):,}명 · 중앙값 {won(biz['청구금액'].median())} · 계약이 아주 많은 몇 곳이 평균을 끌어올려요")
 k4.metric("ARPC", won(arpc(b)), border=True, help=f"한 달 청구 ÷ 유료 계약 {len(b):,}건")
 excl = len(df) - len(b)
-st.caption(f"전체 {len(df):,}건 중 {len(b):,}건을 썼어요. 뺀 {excl:,}건은 청구 0원, 해지 대기·정지, 청구가 모두 0원인 SO예요.")
+st.caption(f"전체 {len(df):,}건 중 {len(b):,}건을 썼어요. 뺀 {excl:,}건은 청구 0원이거나 해지 대기·정지예요.")
 
 c1, c2 = st.columns(2)
 
