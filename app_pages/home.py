@@ -63,6 +63,28 @@ with st.container(border=True):
         st.page_link("app_pages/rate/flow.py", label="설치와 해지 — 순감은 왜 커졌나, 청구금액", icon=":material/swap_vert:")
 
 with st.container(border=True):
+    st.subheader("가입 후 잔존")
+    st.caption("들어온 100건 중 2025년 12월 말에 몇 건이 남았나 · z96 설치 + z98 남은 수량, 2024-01 ~ 2025-12 가입분, 매각한 서초 제외")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/retention/summary.py", label="한눈에 보기 — 가입 월별 잔존율, 가입 후 지난 개월", icon=":material/dashboard:")
+        st.page_link("app_pages/retention/segment.py", label="묶음별 — TV/인터넷 × 개인/기업", icon=":material/category:")
+    with c2:
+        st.page_link("app_pages/retention/so.py", label="SO별 — 순위, 구성 감안, 해지 대기는 해지 신호인가", icon=":material/apartment:")
+        st.page_link("app_pages/retention/cohort.py", label="대량 가입의 질 — 2024년 4~6월 인터넷 개인", icon=":material/stacked_bar_chart:")
+
+with st.container(border=True):
+    st.subheader("종합 분석")
+    st.caption("여러 자료(z96·z98)를 합친 보고서 · SO 한 장 요약, 2026년 전망과 해지로 잃은 청구(추정), 모든 메뉴의 기준과 계산식")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/combo/so.py", label="SO 한 장 보고서 — SO 하나의 해지율·잔존율·ARPC·순증", icon=":material/summarize:")
+        st.page_link("app_pages/combo/forecast.py", label="2026년 전망 — 이대로 가면 연말에 몇 건 (추정)", icon=":material/query_stats:")
+    with c2:
+        st.page_link("app_pages/combo/revenue.py", label="해지로 잃은 청구 — 건수 대신 돈으로 본 순감 (추정)", icon=":material/money_off:")
+        st.page_link("app_pages/combo/basis.py", label="기준과 계산식 모음 — 메뉴별 데이터 소스와 수식", icon=":material/functions:")
+
+with st.container(border=True):
     st.subheader("ARPU")
     st.caption("계약현황(z98)의 청구금액으로 본 고객 1명당(ARPU)·계약 1건당(ARPC) 매출 · 사용 중인 유료 계약 기준")
     c1, c2 = st.columns(2)

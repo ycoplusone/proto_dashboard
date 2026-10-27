@@ -65,6 +65,18 @@ pg = st.navigation(
             st.Page("app_pages/rate/so.py", title="SO별", icon=":material/apartment:", url_path="rate-so"),
             st.Page("app_pages/rate/flow.py", title="설치와 해지 (순감은 왜 커졌나)", icon=":material/swap_vert:", url_path="rate-flow"),
         ],
+        section("가입 후 잔존", "hourglass_bottom", "261027"): [
+            st.Page("app_pages/retention/summary.py", title="한눈에 보기", icon=":material/dashboard:", url_path="retention-summary"),
+            st.Page("app_pages/retention/segment.py", title="묶음별", icon=":material/category:", url_path="retention-segment"),
+            st.Page("app_pages/retention/so.py", title="SO별", icon=":material/apartment:", url_path="retention-so"),
+            st.Page("app_pages/retention/cohort.py", title="대량 가입의 질", icon=":material/stacked_bar_chart:", url_path="retention-cohort"),
+        ],
+        section("종합 분석", "hub", "261027"): [
+            st.Page("app_pages/combo/so.py", title="SO 한 장 보고서", icon=":material/summarize:", url_path="combo-so"),
+            st.Page("app_pages/combo/forecast.py", title="2026년 전망 (추정)", icon=":material/query_stats:", url_path="combo-forecast"),
+            st.Page("app_pages/combo/revenue.py", title="해지로 잃은 청구 (추정)", icon=":material/money_off:", url_path="combo-revenue"),
+            st.Page("app_pages/combo/basis.py", title="기준과 계산식 모음", icon=":material/functions:", url_path="combo-basis"),
+        ],
         section("ARPU", "payments", "261023"): [
             st.Page("app_pages/arpu/summary.py", title="ARPU·ARPC 한눈에 보기", icon=":material/payments:", url_path="arpu-summary"),
             st.Page("app_pages/arpu/bundle.py", title="결합 고객의 가치", icon=":material/join_inner:", url_path="arpu-bundle"),
