@@ -71,6 +71,12 @@ pg = st.navigation(
             st.Page("app_pages/retention/so.py", title="SO별", icon=":material/apartment:", url_path="retention-so"),
             st.Page("app_pages/retention/cohort.py", title="대량 가입의 질", icon=":material/stacked_bar_chart:", url_path="retention-cohort"),
         ],
+        section("해지 이유와 시기", "logout", "261028"): [
+            st.Page("app_pages/churn/summary.py", title="한눈에 보기", icon=":material/dashboard:", url_path="churn-summary"),
+            st.Page("app_pages/churn/timing.py", title="언제 떠나나", icon=":material/event_busy:", url_path="churn-timing"),
+            st.Page("app_pages/churn/reason.py", title="왜 떠나나", icon=":material/help:", url_path="churn-reason"),
+            st.Page("app_pages/churn/rate.py", title="상품·약정별로 얼마나 떠나나", icon=":material/inventory_2:", url_path="churn-rate"),
+        ],
         section("종합 분석", "hub", "261027"): [
             st.Page("app_pages/combo/so.py", title="SO 한 장 보고서", icon=":material/summarize:", url_path="combo-so"),
             st.Page("app_pages/combo/forecast.py", title="2026년 전망 (추정)", icon=":material/query_stats:", url_path="combo-forecast"),
