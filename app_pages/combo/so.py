@@ -1,16 +1,19 @@
 """종합 분석 — SO 한 장 보고서. SO 하나를 고르면 해지율·잔존율·ARPC·순증·해지 대기를 한 장에 모은다.
 주소에 SO가 남아(?so=용산) 링크를 그대로 SO 담당자에게 보낼 수 있다. 숫자 · 막대 · 선 · 표만 쓴다.
 
-데이터: z96_월말가입현황 (건수·해지율·순증) + z98_2025년12월계약현황 (잔존율·ARPC·해지 대기), 매각한 서초 제외.
+데이터: z96_월말가입현황 (건수·해지율·순증) + z98_2025년12월계약현황 (잔존율·ARPC·해지 대기·약정 만료 예정)
++ z97_2025년해지계약 (해지 사유·직권해지·만료 달 해지), 매각한 서초 제외.
 z99 일별실적은 건수 세는 기준이 달라 섞지 않는다.
 """
 
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils import churn
+from utils.churn import expiring, expiry_window
 from utils.ctrt import hbar
 from utils.combo import company, so_scores
-from utils.daily import show, signed
+from utils.daily import josa, show, signed
 from utils.rate import SEG_NAME, SEG_ORDER, k0, load, monthly, yearly
 from utils.ref import reference
 from utils.theme import palette
@@ -104,6 +107,37 @@ with c6:
         fig.update_layout(bargap=0.25)
         show(fig, height=240)
 
+# ---------------------------------------------------------------- 해지 이유와 시기 (z97)
+cd = churn.load()
+cd = cd[cd["떠남"]]
+sd = cd[cd["SO"] == so]
+win_so, win_co = expiry_window("SO")["비율"], expiry_window().sum()
+win_co = win_co["떠남"] / win_co["맞은계약"] * 100
+ex = expiring()
+ex = ex[(ex["SO"] == so) & (ex["상태"] == "사용중") & ex["만료월"].between("2026-01-01", "2026-03-01")]
+forced = sd.loc[sd["해지유형"] == "직권해지", "수량"].sum() / sd["수량"].sum() * 100
+forced_co = cd.loc[cd["해지유형"] == "직권해지", "수량"].sum() / cd["수량"].sum() * 100
+with st.container(border=True):
+    rs = sd.groupby("해지사유")["수량"].sum() / sd["수량"].sum() * 100
+    rc = cd.groupby("해지사유")["수량"].sum() / cd["수량"].sum() * 100
+    gap = (rs - rc.reindex(rs.index)).sort_values(ascending=False)
+    st.markdown(f"##### {so}에서 떠난 해지는 사유가 {josa(gap.index[0], '이가')} 회사보다 100건 중 {gap.iloc[0]:.0f}건 많아요" if gap.iloc[0] >= 1
+                else f"##### {so}의 해지 사유는 회사와 비슷해요")
+    st.caption("2025년 떠난 해지(고객해지·직권해지) 100건 중 사유별 건수 · 괄호 = 회사 전체 · 파랑 = 회사보다 가장 많은 사유 · 약정 만료는 처음 약정 기준")
+    k = st.columns(3)
+    k[0].metric("약정 끝난 달·다음 달에 떠남", f"100건 중 {win_so[so]:.0f}건", f"{win_so[so] - win_co:+.0f}건", border=True,
+                delta_color="inverse", delta_description="회사 평균보다",
+                help=f"2025년 1~11월에 처음 약정이 끝난 계약 중 만료 달·다음 달에 떠난 비율 · {n}곳 중 {int(win_so.rank()[so])}등 (낮을수록 좋음)")
+    k[1].metric("직권해지 비중", f"100건 중 {forced:.1f}건", f"{forced - forced_co:+.1f}건", border=True, delta_color="inverse",
+                delta_description="회사 평균보다", help="떠난 해지 중 미납 등으로 회사가 정리한 해지")
+    k[2].metric("2026년 1~3월 약정 만료", f"{ex['수량'].sum():,}건", border=True, help=f"처음 약정이 끝나는 사용 중 계약 · 고객 {ex['고객ID'].nunique():,}명")
+    top = rs.sort_values(ascending=False)
+    top = top[top >= 1]
+    hbar(top.index, top.values, [gap.index[0]], [f"{v:.0f}건 (회사 {rc[i]:.0f})" for i, v in top.items()],
+         "%{y}: 100건 중 %{x:.1f}건", room=0.6)
+    st.page_link("app_pages/churn/expiring.py", label=f"{so} 약정 만료 예정 명단 보기 (해지 이유와 시기 > 약정 만료 예정 명단)",
+                 icon=":material/event_upcoming:", query_params={"so": so})
+
 # ---------------------------------------------------------------- 표: 15곳 성적표
 with st.container(border=True):
     st.markdown(f"##### SO {n}곳 성적표 — {so}의 자리")
@@ -129,7 +163,9 @@ with st.container(border=True):
 reference([
     ("data/z96_월말가입현황.xlsx", "1행 = 월 × SO × 사업 × 고객유형 · 2024-01 ~ 2025-12 · 서초 제외", "월말 건수, 설치, 해지 → 해지율·순증·잔존율의 분모"),
     ("data/z98_2025년12월계약현황.parquet (원본 csv)", "1행 = 계약 1건의 서비스 1개 · 2025년 12월 말 · 서초 제외",
-     "가입일·수량(잔존율), 청구금액(ARPC), 계약 상태(해지 대기)"),
+     "가입일·수량(잔존율), 청구금액(ARPC), 계약 상태(해지 대기), 가입일·약정개월(약정 만료 예정)"),
+    ("data/z97_2025년해지계약.parquet (원본 z97_2025년해지계약.csv)", "1행 = 해지된 계약 1건의 서비스 1개 · 2025년 해지",
+     "해지 사유 (CLOSE_TYPE), 해지 유형 (CLOSE_RSN_L), 약정만료일·해지일"),
 ], [
     ("12월 말 가입 건수", "2025년 12월 말 건수 (수량 기준), 1년 전 = 2024년 12월 말", "z96 EOM_CNT"),
     ("2025년 해지율", "2025년 해지 합계 ÷ 2025년 1월 초 건수 × 1,000 (월별 해지율 메뉴와 같음)", "z96 CLOSE_CNT ÷ (EOM − ESTAB + CLOSE)"),
@@ -137,6 +173,10 @@ reference([
     ("구성 감안 예상보다", "실제 잔존율 − 가입 월 × 묶음 구성이 회사와 같다면 나왔을 잔존율"),
     ("ARPC", "사용 중인 유료 계약 1건당 한 달 청구 (ARPU 메뉴와 같은 기준, 계약 × 서비스 1행 = 1건)", "z98 BILL_AMT 평균"),
     ("해지 대기", "상태가 해지대기A·B, 직권해지대기A·B인 수량 ÷ 전체 수량 × 1,000", "z98 CTRT_STAT_NM · CNT"),
+    ("떠난 해지의 사유", "고객해지·직권해지 중 그 사유의 수량 ÷ 떠난 해지 × 100. 100건 중 1건 미만인 사유는 막대에서 뺐어요", "z97 CLOSE_TYPE"),
+    ("약정 끝난 달·다음 달에 떠남", "2025년 1~11월에 처음 약정이 끝난 계약 100건 중 만료 달·다음 달에 떠난 건수", "z97 CLOSE_DD − PROM_END_DD"),
+    ("직권해지 비중", "떠난 해지 중 해지 유형이 직권해지인 수량 ÷ 떠난 해지 × 100", "z97 CLOSE_RSN_L"),
+    ("2026년 1~3월 약정 만료", "사용 중 계약 중 가입일 + 약정개월 − 1일이 2026년 1~3월인 수량", "z98 OPEN_DD + PROM_CNT"),
     ("순위", "15곳 중 좋은 쪽이 1등 (해지율·해지 대기는 낮을수록, 잔존율·ARPC는 높을수록)"),
     ("종합 순위", "해지율·잔존율·ARPC·해지 대기 네 순위를 더한 값이 작은 순. 같은 비중으로 단순히 더했어요"),
 ], ["일별실적(z99)은 설치·해지 건수 세는 기준이 z96과 달라서 이 보고서에 섞지 않았어요."])

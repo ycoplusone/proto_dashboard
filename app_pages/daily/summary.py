@@ -6,6 +6,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import eok, load, monthly, show, signed
 from utils.theme import palette
 
@@ -105,3 +106,5 @@ with st.container(border=True):
     )
 
 st.caption("※ 건수는 받은 자료 그대로예요. 실제 0건이 5건으로 표시된 것으로 보여 확인이 필요해요 (금액이 0원인 행은 모두 5건).")
+
+block("일별실적")

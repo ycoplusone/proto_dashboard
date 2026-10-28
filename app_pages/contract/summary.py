@@ -5,6 +5,7 @@
 
 import streamlit as st
 
+from utils.basis import block
 from utils.ctrt import STATE_ORDER, customers, hbar, load, per_k
 from utils.daily import eok
 
@@ -83,3 +84,5 @@ notes = ["건수는 계약×서비스 기준이에요. 결합 계약(예: 프리
 if zero:
     notes.append(f"{', '.join(zero)} SO는 청구금액이 모두 0원이에요. 원본 확인이 필요해요.")
 st.caption("※ " + " · ".join(notes))
+
+block("월별계약별")

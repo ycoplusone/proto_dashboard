@@ -3,6 +3,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import COLS, eok, load, show, signed
 from utils.theme import palette
 
@@ -94,3 +95,5 @@ with st.container(border=True):
     st.caption("금액 단위는 원이에요")
     st.dataframe(so.sort_values("순증건"), width="stretch", height=570,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in COLS})
+
+block("일별실적")

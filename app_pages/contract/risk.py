@@ -2,6 +2,7 @@
 
 import streamlit as st
 
+from utils.basis import block
 from utils.ctrt import customers, hbar, load, per_k
 from utils.daily import ida
 
@@ -79,3 +80,5 @@ with st.container(border=True):
                  column_config={"가장이른가입일": st.column_config.DateColumn("가장 이른 가입일", format="YYYY-MM-DD"),
                                 "해지대기건": st.column_config.NumberColumn("해지 대기 건", format="localized"),
                                 "전체계약건": st.column_config.NumberColumn("전체 계약 건", format="localized")})
+
+block("월별계약별")

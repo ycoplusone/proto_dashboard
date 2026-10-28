@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import load, show
 from utils.period import DAYS, K, band, daily, label
 from utils.theme import palette
@@ -88,3 +89,5 @@ with st.container(border=True):
                                 "평소": st.column_config.NumberColumn("평소 같은 요일 (건)", format="localized"),
                                 "차이": st.column_config.NumberColumn("평소보다 (건)", format="localized"),
                                 "배": st.column_config.NumberColumn("평소의 몇 배", format="%.1f배")})
+
+block("기간분석")

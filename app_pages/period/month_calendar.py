@@ -7,6 +7,7 @@ import calendar
 
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import signed
 from utils.period import DAYS, daily
 from utils.theme import palette
@@ -85,3 +86,5 @@ with st.container(border=True):
     st.dataframe(t, hide_index=True, width="stretch", height=420,
                  column_config={"일자": st.column_config.DateColumn("일자", format="YYYY-MM-DD"),
                                 **{c: st.column_config.NumberColumn(c, format="localized") for c in ["설치건", "해지건", "순증건"]}})
+
+block("기간분석")

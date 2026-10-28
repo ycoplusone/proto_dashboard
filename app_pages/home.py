@@ -83,6 +83,7 @@ with st.container(border=True):
     with c2:
         st.page_link("app_pages/churn/reason.py", label="왜 떠나나 — 묶음별·SO별 해지 사유, 직권해지", icon=":material/help:")
         st.page_link("app_pages/churn/rate.py", label="상품·약정별로 얼마나 떠나나 — 남은 계약 + 떠난 계약", icon=":material/inventory_2:")
+        st.page_link("app_pages/churn/expiring.py", label="약정 만료 예정 명단 — 2026년 1~3월 만료, 예상 해지 (추정)", icon=":material/event_upcoming:")
 
 with st.container(border=True):
     st.subheader("종합 분석")

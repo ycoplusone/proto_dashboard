@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import COLS, eok, load, show, signed
 from utils.period import DAYS, daily, label
 from utils.theme import palette
@@ -107,3 +108,5 @@ with st.container(border=True):
     t = rows.join(usual["순증건"].rename("평소순증").round(0)).reset_index().sort_values("순증건")
     st.dataframe(t, hide_index=True, width="stretch", height=420,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in ["설치건", "해지건", "순증건", "평소순증"]})
+
+block("기간분석")

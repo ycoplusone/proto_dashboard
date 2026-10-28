@@ -5,6 +5,7 @@
 
 import streamlit as st
 
+from utils.basis import block
 from utils.insight import insights
 from utils.theme import palette
 
@@ -40,3 +41,5 @@ for k in range(0, len(rest), 2):
             card(i, False)
 
 st.caption("※ '몇 배'는 두 묶음을 나눈 값이에요. 원인을 뜻하지는 않아요 — 자세히 보기에서 근거를 확인하세요.")
+
+block("인사이트")

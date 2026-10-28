@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from utils.arpu import basis, users, won
+from utils.basis import block
 from utils.daily import eok, show
 from utils.theme import palette
 
@@ -62,3 +63,5 @@ with st.container(border=True):
                  column_config={"계약건": st.column_config.NumberColumn("유료 계약 건", format="localized"),
                                 "청구금액": st.column_config.NumberColumn("한 달 청구 (원)", format="localized"),
                                 "해지대기": st.column_config.CheckboxColumn("해지 대기")})
+
+block("ARPU")
