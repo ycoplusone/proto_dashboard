@@ -86,3 +86,69 @@ def leave_rate(by: str) -> pd.DataFrame:
     t["전체"] = t["남음"] + t["떠남"]
     t["떠난비율"] = t["떠남"] / t["전체"] * 100
     return t.rename_axis(by).reset_index()
+
+
+# ---------------------------------------------------------------- 약정 만료 (z98 남은 계약의 처음 약정 만료 + z97로 본 만료 달 해지)
+def first_end(z: pd.DataFrame) -> pd.Series:
+    """z98 계약의 처음 약정 만료일 = 가입일 + 약정개월 − 1일 (z97 PROM_END_DD와 같은 규칙). 가입일·약정이 없거나 무약정이면 빈 값."""
+    out = pd.Series(pd.NaT, index=z.index, dtype="datetime64[s]")
+    for m in z["약정개월"].dropna().unique():
+        if m <= 0:
+            continue
+        i = z.index[(z["약정개월"] == m) & z["가입일"].notna()]
+        out[i] = z.loc[i, "가입일"] + pd.DateOffset(months=int(m)) - pd.Timedelta(days=1)
+    return out
+
+
+@st.cache_data(show_spinner="약정 만료일을 계산하고 있어요…")
+def expiring() -> pd.DataFrame:
+    """z98에서 처음 약정 만료일이 있는 계약. 1행 = 계약 × 서비스 1개 (명단·건수 계산용, 개인정보 컬럼 없음)."""
+    z = ctrt.load()
+    e = first_end(z)
+    keep = e.notna()
+    t = z.loc[keep, ["계약ID", "고객ID", "SO", "지역", "사업", "고객유형", "상품군", "상품명", "약정개월", "가입일", "청구금액", "수량", "상태"]].copy()
+    for c in ["SO", "지역", "사업", "고객유형", "상품군", "상품명", "상태"]:
+        t[c] = t[c].astype(str)
+    t["구분"] = t["사업"] + " " + t["고객유형"]
+    t["만료일"] = e[keep]
+    t["만료월"] = t["만료일"].dt.to_period("M").dt.to_timestamp()
+    return t.reset_index(drop=True)
+
+
+@st.cache_data(show_spinner=False)
+def expiry_window(by: str = "구분") -> pd.DataFrame:
+    """2025년 1~11월에 처음 약정이 끝난 계약 100건 중 만료 달·다음 달에 떠난 건수 (by별).
+    맞은 계약 = 그 달 만료인 z98 계약(12월 말에 남음) + z97 떠난 해지 중 만료월이 그 달이고 만료 후에 떠난 것.
+    12월 만료분은 '다음 달'이 자료 밖이라 뺀다."""
+    first, last = pd.Timestamp("2025-01-01"), pd.Timestamp("2025-11-01")
+    z = expiring()
+    z = z[z["만료월"].between(first, last)]
+    d = load()
+    d = d[d["떠남"] & d["약정만료일"].notna()]
+    d = d.assign(만료월=d["약정만료일"].dt.to_period("M").dt.to_timestamp())
+    d = d[d["만료월"].between(first, last)]
+    met = z.groupby(by)["수량"].sum().add(d[d["만료후개월"] >= 0].groupby(by)["수량"].sum(), fill_value=0)
+    win = d[d["만료후개월"].isin([0, 1])].groupby(by)["수량"].sum()
+    t = pd.DataFrame({"맞은계약": met, "떠남": win}).fillna(0)
+    t["비율"] = t["떠남"] / t["맞은계약"] * 100
+    return t.rename_axis(by)
+
+
+@st.cache_data(show_spinner=False)
+def expiry_counts() -> pd.DataFrame:
+    """구분 × 달(1~12월): 처음 약정이 끝나는 계약 수량. 2025 = 그해 초에 있던 계약(z98 남음 + z97 떠남), 2026 = z98 12월 말 계약."""
+    z = expiring()
+    d = load()
+    d = d[d["떠남"] & d["약정만료일"].notna()]
+    d = d.assign(만료월=d["약정만료일"].dt.to_period("M").dt.to_timestamp())
+    rows = []
+    for yr in (2025, 2026):
+        zz = z[z["만료월"].dt.year == yr]
+        n = zz.groupby(["구분", zz["만료월"].dt.month])["수량"].sum()
+        if yr == 2025:
+            dd = d[d["만료월"].dt.year == yr]
+            n = n.add(dd.groupby(["구분", dd["만료월"].dt.month])["수량"].sum(), fill_value=0)
+        rows.append(n.rename(yr))
+    t = pd.concat(rows, axis=1).fillna(0)
+    t.index.names = ["구분", "월번호"]
+    return t.reset_index()

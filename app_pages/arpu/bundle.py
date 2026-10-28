@@ -5,6 +5,7 @@
 import streamlit as st
 
 from utils.arpu import basis, users, won
+from utils.basis import block
 from utils.ctrt import customers, hbar
 from utils.daily import eok
 
@@ -68,3 +69,5 @@ with st.container(border=True):
     st.dataframe(so, width="stretch", height=560,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in so.columns if c != "결합 비율"}
                  | {"결합 비율": st.column_config.NumberColumn("100명 중 결합", format="%.1f명")})
+
+block("ARPU")

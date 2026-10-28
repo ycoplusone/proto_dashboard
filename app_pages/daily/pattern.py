@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import load, show, signed
 from utils.theme import palette
 
@@ -100,3 +101,5 @@ with st.container(border=True):
             **{c: st.column_config.NumberColumn(c, format="localized") for c in ["설치건", "해지건", "순증건", "설치금액", "해지금액"]},
         },
     )
+
+block("일별실적")

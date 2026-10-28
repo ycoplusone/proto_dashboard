@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import load, show, signed
 from utils.period import daily
 from utils.theme import palette
@@ -102,3 +103,5 @@ with st.container(border=True):
     st.caption(f"건수 · 평균 대비 = 이번 주 순증 − 최근 {N_AVG}주({prev4[0].month}/{prev4[0].day}부터 {(prev4[-1] + pd.Timedelta(days=6)).month}/{(prev4[-1] + pd.Timedelta(days=6)).day}까지) 평균 · 좋아진 순")
     st.dataframe(t.round(0), width="stretch", height=570,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in t.columns})
+
+block("기간분석")

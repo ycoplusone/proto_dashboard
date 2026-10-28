@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from utils.arpu import base, basis, won
+from utils.basis import block
 from utils.ctrt import PROM_ORDER, hbar
 from utils.daily import josa, show
 from utils.theme import palette
@@ -70,3 +71,5 @@ with st.container(border=True):
     t = t[sorted(t.columns, key=lambda c: (c.split()[1], c))].round(0)
     st.dataframe(t.sort_index(ascending=False), width="stretch", height=500,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in t.columns})
+
+block("ARPU")

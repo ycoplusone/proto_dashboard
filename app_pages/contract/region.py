@@ -2,6 +2,7 @@
 
 import streamlit as st
 
+from utils.basis import block
 from utils.ctrt import hbar, load, per_k
 from utils.daily import eok, josa
 
@@ -63,3 +64,5 @@ with st.container(border=True):
     t["1,000건 중 해지 대기"] = (so["해지대기율"] * 1000).round(1)
     st.dataframe(t, width="stretch", height=600,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in t.columns})
+
+block("월별계약별")

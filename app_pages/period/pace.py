@@ -3,6 +3,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import show, signed
 from utils.period import daily
 from utils.theme import palette
@@ -87,3 +88,5 @@ with st.container(border=True):
     out.index = [f"{m}월" for m in out.index]
     st.dataframe(out, width="stretch", height=495,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in out.columns if c != "지난달 대비"})
+
+block("기간분석")

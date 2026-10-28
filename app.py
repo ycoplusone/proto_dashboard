@@ -76,6 +76,7 @@ pg = st.navigation(
             st.Page("app_pages/churn/timing.py", title="언제 떠나나", icon=":material/event_busy:", url_path="churn-timing"),
             st.Page("app_pages/churn/reason.py", title="왜 떠나나", icon=":material/help:", url_path="churn-reason"),
             st.Page("app_pages/churn/rate.py", title="상품·약정별로 얼마나 떠나나", icon=":material/inventory_2:", url_path="churn-rate"),
+            st.Page("app_pages/churn/expiring.py", title="약정 만료 예정 명단", icon=":material/event_upcoming:", url_path="churn-expiring"),
         ],
         section("종합 분석", "hub", "261027"): [
             st.Page("app_pages/combo/so.py", title="SO 한 장 보고서", icon=":material/summarize:", url_path="combo-so"),

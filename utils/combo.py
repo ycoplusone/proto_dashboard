@@ -6,22 +6,38 @@
 import pandas as pd
 import streamlit as st
 
-from utils import arpu, ctrt, rate, retention
+from utils import arpu, churn, ctrt, rate, retention
 
 # 전망 경우의 수. 설치는 '같은 달 건수', 해지는 '같은 달 해지율'을 그대로 가져온다 (계절을 살리려고).
 SCENARIOS = {
     "2025년처럼": dict(install=2025, churn=1.0),
     "설치가 2024년만큼 돌아오면": dict(install=2024, churn=1.0),
     "해지율이 10% 낮아지면": dict(install=2025, churn=0.9),
+    "약정 만료 반영": dict(install=2025, churn=1.0, expiry=True),
 }
 BASE = "2025년처럼"
 
 
 @st.cache_data(show_spinner=False)
+def expiry_extra() -> pd.Series:
+    """'약정 만료 반영' 경우에 더하는 해지 (구분 × 월번호). 처음 약정이 끝나는 계약이 2025년보다 많으면(적으면) 그만큼 더(덜) 떠난다.
+    = (2026년 그 달 만료 수량 − 2025년 그 달 만료 수량) × 만료 달·다음 달에 평소보다 더 떠나는 비율.
+    평소 = 그 묶음의 2025년 연간 해지율 ÷ 12 × 2달 (z96)."""
+    c = churn.expiry_counts().set_index(["구분", "월번호"])
+    w = churn.expiry_window()["비율"] / 100
+    y = rate.yearly(rate.load(), ["구분"])
+    usual = y[y["연"] == 2025].set_index("구분")["해지율"] / 1000 / 12 * 2
+    excess = (w - usual).clip(lower=0)
+    return (c[2026] - c[2025]) * c.index.get_level_values("구분").map(excess).to_numpy()
+
+
+@st.cache_data(show_spinner=False)
 def forecast() -> pd.DataFrame:
     """2026년 1~12월 월말 건수 전망. 1행 = 경우 × 월 × 구분.
-    묶음(구분)마다: 월초 = 지난달 월말, 해지 = 월초 × 기준 연도 같은 달 해지율 × churn, 설치 = 기준 연도 같은 달 설치."""
+    묶음(구분)마다: 월초 = 지난달 월말, 해지 = 월초 × 기준 연도 같은 달 해지율 × churn, 설치 = 기준 연도 같은 달 설치.
+    expiry 경우는 해지에 expiry_extra()를 더한다."""
     m = rate.monthly(rate.load(), ["구분"])
+    extra = expiry_extra()
     m["월번호"] = m["월"].dt.month
     last = m[m["월"] == m["월"].max()].set_index("구분")["월말"]
     rows = []
@@ -31,7 +47,7 @@ def forecast() -> pd.DataFrame:
         for seg, eom in last.items():
             for k in range(1, 13):
                 start = eom
-                close = start * cr[(seg, k)]
+                close = start * cr[(seg, k)] + (extra.get((seg, k), 0) if sc.get("expiry") else 0)
                 est = inst[(seg, k)]
                 eom = start - close + est
                 rows.append((name, pd.Timestamp(2026, k, 1), seg, start, est, close, eom))

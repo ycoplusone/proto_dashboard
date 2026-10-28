@@ -7,6 +7,7 @@
 import streamlit as st
 
 from utils import arpu, daily
+from utils.basis import block
 from utils.daily import eok, ida, signed
 from utils.insight import Node, tree_html
 
@@ -75,3 +76,5 @@ with st.container(border=True):
     st.markdown(f"##### 한 달 매출 {eok(root.value)} 중 {big.children[0].value / root.value:.0%}가 {big.name.split()[0]} 고객의 {big.children[0].name}에서 나와요")
     st.caption(arpu.basis())
     st.html(tree_html(root, eok, hot_sign=1, tag_text="가장 큼"))
+
+block("인사이트")

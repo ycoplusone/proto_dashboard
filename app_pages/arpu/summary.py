@@ -4,6 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from utils.arpu import arpc, base, basis, users, won
+from utils.basis import block
 from utils.ctrt import hbar, load
 from utils.daily import eok
 
@@ -68,3 +69,5 @@ with st.container(border=True):
     t["ARPU"] = (t["월청구"] / t["고객수"]).round()
     st.dataframe(t, hide_index=True, width="stretch",
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in ["계약건", "고객수", "월청구", "ARPC", "ARPU"]})
+
+block("ARPU")

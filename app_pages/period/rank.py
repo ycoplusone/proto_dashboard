@@ -7,6 +7,7 @@ SO 규모가 달라서 큰 SO는 아래쪽에 머무르기 쉽다. 그래서 순
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import ida, josa, load, show, signed
 from utils.theme import palette
 
@@ -72,3 +73,5 @@ with st.container(border=True):
     t["변화"] = move.round(1)
     st.dataframe(t.sort_values("변화", ascending=False), width="stretch", height=570,
                  column_config={"변화": st.column_config.NumberColumn("변화", format="%+.1f")})
+
+block("기간분석")

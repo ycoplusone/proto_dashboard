@@ -2,6 +2,7 @@
 
 import streamlit as st
 
+from utils.basis import block
 from utils.ctrt import hbar, load, per_k
 from utils.daily import eok, ida, josa
 
@@ -59,3 +60,5 @@ with st.container(border=True):
     p["건당청구"] = (p["청구금액"] / p["가입건수"]).round()
     st.dataframe(p.sort_values("가입건수", ascending=False), hide_index=True, width="stretch", height=460,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in ["가입건수", "청구금액", "해지대기", "건당청구"]})
+
+block("월별계약별")

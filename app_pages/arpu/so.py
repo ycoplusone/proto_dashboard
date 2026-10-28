@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from utils.arpu import arpc, base, basis, won
+from utils.basis import block
 from utils.ctrt import hbar
 from utils.daily import josa, show
 from utils.theme import palette
@@ -76,3 +77,5 @@ with st.container(border=True):
     st.dataframe(t, width="stretch", height=600,
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in t.columns if c != f"{CHEAP} 비중"}
                  | {f"{CHEAP} 비중": st.column_config.NumberColumn(f"100건 중 {CHEAP}", format="%.0f건")})
+
+block("ARPU")

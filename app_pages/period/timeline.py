@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.daily import eok, load, show, signed
 from utils.period import daily, label
 from utils.theme import palette
@@ -85,3 +86,5 @@ with st.container(border=True):
     st.caption(f"명절 · 최대 순감·순증일 · 가장 나쁜 달 · 대량 건(한 줄에서 {BULK}건 이상) · 날짜순")
     st.dataframe(events, hide_index=True, width="stretch", height=480,
                  column_config={"일자": st.column_config.DateColumn("일자", format="YYYY-MM-DD")})
+
+block("기간분석")

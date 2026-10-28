@@ -6,6 +6,7 @@
 import streamlit as st
 
 from utils import arpu, ctrt
+from utils.basis import block
 from utils.insight import people_html, per100
 
 cu = ctrt.customers()
@@ -53,3 +54,5 @@ for c, (label, cond) in zip([c3, c4], [("2014년 이전에 가입한 계약", df
         n = per100(r)
         panel(f"{label} 100건 중 {n}건이 해지 대기예요", n,
               f"정확히는 1,000건 중 {r * 1000:.0f}건 (계약 {int(cond.sum()):,}건)", shape="square", total_label="100건")
+
+block("인사이트")

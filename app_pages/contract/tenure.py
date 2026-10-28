@@ -3,6 +3,7 @@
 import plotly.graph_objects as go
 import streamlit as st
 
+from utils.basis import block
 from utils.ctrt import PROM_ORDER, hbar, load, per_k
 from utils.daily import show
 from utils.theme import palette
@@ -97,3 +98,5 @@ with st.container(border=True):
     t["해지 대기"] = pr["해지대기"].reindex(PROM_ORDER).astype(int)
     st.dataframe(t, width="stretch",
                  column_config={c: st.column_config.NumberColumn(c, format="localized") for c in t.columns})
+
+block("월별계약별")

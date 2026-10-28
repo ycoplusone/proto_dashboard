@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
 
+from utils.basis import block
 from utils.daily import COLS, eok, josa, load, signed
 from utils.theme import palette
 from utils.viz import SERIES, insight_card
@@ -115,3 +116,5 @@ with c4:
                  fig, height=420)
 
 st.caption(f"연간 순증 금액 {eok(df['순증금액'].sum())} · 건수는 받은 자료 그대로예요")
+
+block("일별실적")
