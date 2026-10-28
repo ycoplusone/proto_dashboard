@@ -74,6 +74,17 @@ with st.container(border=True):
         st.page_link("app_pages/retention/cohort.py", label="대량 가입의 질 — 2024년 4~6월 인터넷 개인", icon=":material/stacked_bar_chart:")
 
 with st.container(border=True):
+    st.subheader("해지 이유와 시기")
+    st.caption("2025년에 해지된 계약 24만 건 · 실제로 떠난 해지와 상품 변경·이전, 약정 만료 전후, 해지 사유 · z97 (+ z98)")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/churn/summary.py", label="한눈에 보기 — 실제로 떠난 해지는 얼마, 왜", icon=":material/dashboard:")
+        st.page_link("app_pages/churn/timing.py", label="언제 떠나나 — 약정 만료 달, 가입 후 몇 년째", icon=":material/event_busy:")
+    with c2:
+        st.page_link("app_pages/churn/reason.py", label="왜 떠나나 — 묶음별·SO별 해지 사유, 직권해지", icon=":material/help:")
+        st.page_link("app_pages/churn/rate.py", label="상품·약정별로 얼마나 떠나나 — 남은 계약 + 떠난 계약", icon=":material/inventory_2:")
+
+with st.container(border=True):
     st.subheader("종합 분석")
     st.caption("여러 자료(z96·z98)를 합친 보고서 · SO 한 장 요약, 2026년 전망과 해지로 잃은 청구(추정), 모든 메뉴의 기준과 계산식")
     c1, c2 = st.columns(2)

@@ -7,7 +7,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import rate, retention
+from utils import churn, rate, retention
 
 Z99 = ("data/z99_2025년실적자료.xlsx", "1행 = 일자 × SO × 사업 × 고객유형 · 2025-01-01 ~ 2025-12-31 (자료 있는 날 363일)",
        "설치건·해지건 (ESTAB_CNT·CLOSE_CNT), 설치금액·해지금액 (ESTAB_AMT·CLOSE_AMT)")
@@ -64,7 +64,11 @@ MENUS = [
     Basis("가입 후 잔존", "한눈에 보기 · 묶음별 · SO별 · 대량 가입의 질", retention.SOURCE, retention.REF + [
         ("구성 감안 예상", "Σ(SO 가입 월 × 묶음 설치 × 회사 같은 칸 잔존율) ÷ SO 설치"),
     ], retention.NOTES, has_block=True),
-    Basis("ARPU", "한눈에 보기 · 결합 고객의 가치 · SO별 ARPC와 그 이유 · 매출 집중도와 VIP · 가입 시기·약정별 ARPC", [Z98], [
+    Basis("해지 이유와 시기", "한눈에 보기 · 언제 떠나나 · 왜 떠나나 · 상품·약정별로 얼마나 떠나나", churn.SOURCE + [Z98], churn.REF + [
+        ("약정 만료 기준 개월", "해지 월 − 처음 약정 만료 월 (같은 달 = 0, 음수 = 약정 중)", "CLOSE_DD − PROM_END_DD"),
+        ("떠난 비율 (상품·약정별)", "z97 떠난 계약 ÷ (z98 12월 말에 남은 계약 + z97 떠난 계약) × 100", "z97 Σ CNT ÷ (z98 Σ CNT + z97 Σ CNT)"),
+    ], churn.NOTES, has_block=True),
+    Basis("ARPU","한눈에 보기 · 결합 고객의 가치 · SO별 ARPC와 그 이유 · 매출 집중도와 VIP · 가입 시기·약정별 ARPC", [Z98], [
         ("대상 계약", "2025년 12월 말 사용 중인 유료 계약 (청구 0원 제외)", "CTRT_STAT_NM = 사용중 · BILL_AMT > 0"),
         ("ARPC", "청구금액 합계 ÷ 계약 × 서비스 건수 (결합 계약은 TV·인터넷 2건)", "Σ BILL_AMT ÷ 행 수"),
         ("ARPU", "고객 1명의 유료 계약 청구 합계의 평균", "Σ BILL_AMT ÷ 고객ID 수"),
