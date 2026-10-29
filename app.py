@@ -31,6 +31,9 @@ pg = st.navigation(
         section("시작", "home"): [
             st.Page("app_pages/home.py", title="홈", icon=":material/home:", default=True),
         ],
+        section("종합 대시보드", "space_dashboard", "261029"): [
+            st.Page("app_pages/overview/dashboard.py", title="한 장으로 보기", icon=":material/space_dashboard:", url_path="overview"),
+        ],
         section("일별실적", "insights", "261022"): [
             st.Page("app_pages/daily/summary.py", title="한눈에 보기", icon=":material/dashboard:", url_path="daily-summary"),
             st.Page("app_pages/daily/business.py", title="사업·고객유형별", icon=":material/category:", url_path="daily-business"),
