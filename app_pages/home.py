@@ -6,6 +6,12 @@ st.title(os.getenv("APP_TITLE", "Proto Dashboard"))
 st.write("데이터 시각화 프로토타입 모음입니다. 아래 링크나 왼쪽 메뉴에서 화면을 고르세요. 화면마다 한 페이지에 모든 차트가 나와요.")
 
 with st.container(border=True):
+    st.subheader("종합 대시보드")
+    st.caption("아래 리포트들의 결론을 한 장에 모은 화면 · z96 + z98 + z97 · 얼마나 줄었나 → 왜 → 어디서 → 언제·왜 떠나나 → 돈 → 앞으로 → SO 성적표")
+    st.page_link("app_pages/overview/dashboard.py", label="한 장으로 보기 — 가입 건수·해지율·잔존·해지 시기·청구·2026년 전망·SO 성적표",
+                 icon=":material/space_dashboard:")
+
+with st.container(border=True):
     st.subheader("일별실적")
     st.caption("2025년 실적 자료(z99_2025년실적자료) · 일자 × SO × 사업(ISP/DTV) × 고객유형(MASS/BIZ)")
     c1, c2 = st.columns(2)
