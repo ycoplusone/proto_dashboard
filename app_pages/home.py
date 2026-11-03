@@ -12,6 +12,19 @@ with st.container(border=True):
                  icon=":material/space_dashboard:")
 
 with st.container(border=True):
+    st.subheader("계약 이력 추적")
+    st.caption("통합 데이터 3개(z93 2023년 12월 말 계약 + z92 2024~2025년 설치·해지 이력 + z91 2025년 12월 말 계약) · 같은 계약을 2년 동안 따라감")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.page_link("app_pages/track/two_year.py", label="2년 추적 — 2023년 말 계약은 2년 뒤 어떻게 됐나", icon=":material/timeline:")
+        st.page_link("app_pages/track/channel.py", label="가입 경로별 고객의 질 — 어느 경로로 온 고객이 오래 남나", icon=":material/storefront:")
+        st.page_link("app_pages/track/reason.py", label="상세 해지 사유 — 이사·타사 혜택·쓸 일이 없어짐", icon=":material/help:")
+    with c2:
+        st.page_link("app_pages/track/change.py", label="상품 변경 흐름 — 바꾼 고객은 어느 상품으로 갔나", icon=":material/swap_horiz:")
+        st.page_link("app_pages/track/months.py", label="가입 후 몇 달째 떠나나 — 1개월째·12개월째", icon=":material/event_busy:")
+        st.page_link("app_pages/track/customer.py", label="고객 단위 해지 — 다 끊나 일부만 끊나, 결합 유지", icon=":material/person:")
+
+with st.container(border=True):
     st.subheader("일별실적")
     st.caption("2025년 실적 자료(z99_2025년실적자료) · 일자 × SO × 사업(ISP/DTV) × 고객유형(MASS/BIZ)")
     c1, c2 = st.columns(2)

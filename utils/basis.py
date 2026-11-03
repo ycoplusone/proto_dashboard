@@ -7,7 +7,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import churn, rate, retention
+from utils import churn, rate, retention, track
 
 Z99 = ("data/z99_2025년실적자료.xlsx", "1행 = 일자 × SO × 사업 × 고객유형 · 2025-01-01 ~ 2025-12-31 (자료 있는 날 363일)",
        "설치건·해지건 (ESTAB_CNT·CLOSE_CNT), 설치금액·해지금액 (ESTAB_AMT·CLOSE_AMT)")
@@ -89,6 +89,12 @@ MENUS = [
         ("남은 계약 단가 변화", "실제 12월 청구 변화 − (설치로 얻은 청구 − 해지로 잃은 청구) (추정)"),
         ("1~3월 예상 해지", "2026년 1~3월 처음 약정 만료 수량 × 묶음별 2025년 만료 달·다음 달 해지 비율 (추정)"),
     ], ["z99 일별실적은 건수 기준이 달라 섞지 않아요."], has_block=True),
+    Basis("계약 이력 추적", "2년 추적 · 가입 경로별 고객의 질 · 상세 해지 사유 · 상품 변경 흐름 · 가입 후 몇 달째 떠나나 · 고객 단위 해지",
+          [(*track.FILES[k], "") for k in ("z93", "z92", "z91")], track.REF + [
+              ("새 가입", "설치 중 상품 변경 해지와 같은 고객·같은 날·같은 사업의 설치(변경 설치)를 뺀 것"),
+              ("사유 묶음", "상세 사유(EVENT_KIND) 53종 → 10개 (utils/track.py의 REASON_GROUP, 이 메뉴에서 정한 묶음)"),
+              ("단가 순위 (상품 변경)", "2025년 말(z91) 사용 중 유료 계약 청구의 상품군별 중앙값 순위"),
+          ], track.NOTES, has_block=True),
     Basis("현업용 보고서 · 02 고객현황 · 01 계약현황", "가장 단순한 샘플 · 월간 보고서 · 해지 고객 보고서 · 고객현황 갤러리 · 계약현황 갤러리", [
         ("data/01_계약현황.xlsx ~ data/04_해지요약.xlsx", "가상 데이터 (scripts/gen_NN_*.py로 생성, seed 고정)", "정의서: docs/datasets/01~04"),
     ], [
