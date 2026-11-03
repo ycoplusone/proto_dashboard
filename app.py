@@ -34,6 +34,10 @@ pg = st.navigation(
         section("종합 대시보드", "space_dashboard", "261029"): [
             st.Page("app_pages/overview/dashboard.py", title="한 장으로 보기", icon=":material/space_dashboard:", url_path="overview"),
         ],
+        section("경쟁사 비교", "compare_arrows", "261103"): [
+            st.Page("app_pages/finance/profit.py", title="수익성 비교 (공시 재무제표)", icon=":material/account_balance:", url_path="finance-profit"),
+            st.Page("app_pages/finance/statements.py", title="회사별 재무제표", icon=":material/table_chart:", url_path="finance-statements"),
+        ],
         section("계약 이력 추적", "route", "261103"): [
             st.Page("app_pages/track/two_year.py", title="2년 추적", icon=":material/timeline:", url_path="track-2year"),
             st.Page("app_pages/track/channel.py", title="가입 경로별 고객의 질", icon=":material/storefront:", url_path="track-channel"),
