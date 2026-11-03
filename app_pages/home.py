@@ -12,6 +12,14 @@ with st.container(border=True):
                  icon=":material/space_dashboard:")
 
 with st.container(border=True):
+    st.subheader("경쟁사 비교")
+    st.caption("공시 재무제표(z90, DART) · SK브로드밴드·LG헬로비전·KT스카이라이프·딜라이브 · 2023~2025년 연결")
+    c1, c2 = st.columns(2)
+    c1.page_link("app_pages/finance/profit.py", label="수익성 비교 — 매출 100원당 영업이익·순이익·현금, 매출 증감, 부채비율",
+                 icon=":material/account_balance:")
+    c2.page_link("app_pages/finance/statements.py", label="회사별 재무제표 — 같은 항목의 표와 선 그래프", icon=":material/table_chart:")
+
+with st.container(border=True):
     st.subheader("계약 이력 추적")
     st.caption("통합 데이터 3개(z93 2023년 12월 말 계약 + z92 2024~2025년 설치·해지 이력 + z91 2025년 12월 말 계약) · 같은 계약을 2년 동안 따라감")
     c1, c2 = st.columns(2)
