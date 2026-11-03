@@ -11,3 +11,7 @@ __pycache__/
 # 100MB가 넘는 원본 CSV (GitHub에 올라가지 않음). 화면은 같은 이름의 .parquet를 쓴다 (scripts/convert_z98.py)
 data/z98_2025년12월계약현황.csv
 data/z97_2025년해지계약.csv
+# 통합 데이터 원본 CSV (scripts/convert_z9x.py)
+data/z93_2023년12월계약.csv
+data/z92_계약이력.csv
+data/z91_2025년12월계약.csv
