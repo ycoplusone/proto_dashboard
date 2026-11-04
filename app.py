@@ -37,6 +37,15 @@ pg = st.navigation(
         section("경쟁사 비교", "compare_arrows", "261103"): [
             st.Page("app_pages/finance/profit.py", title="수익성 비교 (공시 재무제표)", icon=":material/account_balance:", url_path="finance-profit"),
             st.Page("app_pages/finance/statements.py", title="회사별 재무제표", icon=":material/table_chart:", url_path="finance-statements"),
+            st.Page("app_pages/finance/year.py", title="연도별 단순 비교", icon=":material/view_column:", url_path="finance-year"),
+        ],
+        section("딜라이브 재무 분석", "monitoring", "261104"): [
+            st.Page("app_pages/dfin/revenue.py", title="매출은 왜 줄었나", icon=":material/trending_down:", url_path="dfin-revenue"),
+            st.Page("app_pages/dfin/cost.py", title="비용 구조", icon=":material/receipt_long:", url_path="dfin-cost"),
+            st.Page("app_pages/dfin/bridge.py", title="영업이익에서 순손실까지", icon=":material/waterfall_chart:", url_path="dfin-bridge"),
+            st.Page("app_pages/dfin/debt.py", title="빚과 버틸 힘", icon=":material/account_balance_wallet:", url_path="dfin-debt"),
+            st.Page("app_pages/dfin/trend.py", title="13년 추이", icon=":material/timeline:", url_path="dfin-trend"),
+            st.Page("app_pages/dfin/whatif.py", title="2026년 가정해 보기 (추정)", icon=":material/tune:", url_path="dfin-whatif"),
         ],
         section("계약 이력 추적", "route", "261103"): [
             st.Page("app_pages/track/two_year.py", title="2년 추적", icon=":material/timeline:", url_path="track-2year"),

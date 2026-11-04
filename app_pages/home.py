@@ -14,10 +14,22 @@ with st.container(border=True):
 with st.container(border=True):
     st.subheader("경쟁사 비교")
     st.caption("공시 재무제표(z90, DART) · SK브로드밴드·LG헬로비전·KT스카이라이프·딜라이브 · 2023~2025년 연결")
-    c1, c2 = st.columns(2)
+    c1, c2, c3 = st.columns(3)
     c1.page_link("app_pages/finance/profit.py", label="수익성 비교 — 매출 100원당 영업이익·순이익·현금, 매출 증감, 부채비율",
                  icon=":material/account_balance:")
     c2.page_link("app_pages/finance/statements.py", label="회사별 재무제표 — 같은 항목의 표와 선 그래프", icon=":material/table_chart:")
+    c3.page_link("app_pages/finance/year.py", label="연도별 단순 비교 — 연도를 골라 네 회사를 같은 항목으로", icon=":material/view_column:")
+
+with st.container(border=True):
+    st.subheader("딜라이브 재무 분석")
+    st.caption("딜라이브 연결감사보고서 13년(2013~2025, z89, DART 원문) · 본문 + 영업수익·영업비용 주석")
+    c1, c2, c3 = st.columns(3)
+    c1.page_link("app_pages/dfin/revenue.py", label="매출은 왜 줄었나 — 수익원별 증감", icon=":material/trending_down:")
+    c1.page_link("app_pages/dfin/cost.py", label="비용 구조 — 매출 100원 중 비용 묶음", icon=":material/receipt_long:")
+    c2.page_link("app_pages/dfin/bridge.py", label="영업이익에서 순손실까지 — 손상차손·이자", icon=":material/waterfall_chart:")
+    c2.page_link("app_pages/dfin/debt.py", label="빚과 버틸 힘 — 차입금·이자보상배율·유동성", icon=":material/account_balance_wallet:")
+    c3.page_link("app_pages/dfin/trend.py", label="13년 추이 — 매출·이익·현금·자본", icon=":material/timeline:")
+    c3.page_link("app_pages/dfin/whatif.py", label="2026년 가정해 보기 (추정) — 슬라이더로 다시 계산", icon=":material/tune:")
 
 with st.container(border=True):
     st.subheader("계약 이력 추적")
