@@ -7,7 +7,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import churn, finance, rate, retention, track
+from utils import churn, dfin, finance, rate, retention, track
 
 Z99 = ("data/z99_2025년실적자료.xlsx", "1행 = 일자 × SO × 사업 × 고객유형 · 2025-01-01 ~ 2025-12-31 (자료 있는 날 363일)",
        "설치건·해지건 (ESTAB_CNT·CLOSE_CNT), 설치금액·해지금액 (ESTAB_AMT·CLOSE_AMT)")
@@ -95,7 +95,9 @@ MENUS = [
               ("사유 묶음", "상세 사유(EVENT_KIND) 53종 → 10개 (utils/track.py의 REASON_GROUP, 이 메뉴에서 정한 묶음)"),
               ("단가 순위 (상품 변경)", "2025년 말(z91) 사용 중 유료 계약 청구의 상품군별 중앙값 순위"),
           ], track.NOTES, has_block=True),
-    Basis("경쟁사 비교", "수익성 비교 (공시 재무제표) · 회사별 재무제표", finance.SOURCE, finance.REF, finance.NOTES, has_block=True),
+    Basis("딜라이브 재무 분석", "매출은 왜 줄었나 · 비용 구조 · 영업이익에서 순손실까지 · 빚과 버틸 힘 · 13년 추이 · 2026년 가정해 보기",
+          dfin.SOURCE, dfin.REF, dfin.NOTES, has_block=True),
+    Basis("경쟁사 비교", "수익성 비교 (공시 재무제표) · 회사별 재무제표 · 연도별 단순 비교", finance.SOURCE, finance.REF, finance.NOTES, has_block=True),
     Basis("현업용 보고서 · 02 고객현황 · 01 계약현황", "가장 단순한 샘플 · 월간 보고서 · 해지 고객 보고서 · 고객현황 갤러리 · 계약현황 갤러리", [
         ("data/01_계약현황.xlsx ~ data/04_해지요약.xlsx", "가상 데이터 (scripts/gen_NN_*.py로 생성, seed 고정)", "정의서: docs/datasets/01~04"),
     ], [
