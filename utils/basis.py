@@ -7,7 +7,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import churn, dfin, finance, rate, retention, track
+from utils import churn, dfin, finance, rate, retention, std, track
 
 Z99 = ("data/z99_2025년실적자료.xlsx", "1행 = 일자 × SO × 사업 × 고객유형 · 2025-01-01 ~ 2025-12-31 (자료 있는 날 363일)",
        "설치건·해지건 (ESTAB_CNT·CLOSE_CNT), 설치금액·해지금액 (ESTAB_AMT·CLOSE_AMT)")
@@ -97,6 +97,15 @@ MENUS = [
           ], track.NOTES, has_block=True),
     Basis("딜라이브 재무 분석", "매출은 왜 줄었나 · 비용 구조 · 영업이익에서 순손실까지 · 빚과 버틸 힘 · 13년 추이 · 2026년 가정해 보기",
           dfin.SOURCE, dfin.REF, dfin.NOTES, has_block=True),
+    Basis("표준리포트 (가상 ERP)", "경영 요약 · 사업부 성과 비교 · 영업이익 증감 분해 · 매출 분석 · 거래처 분석 · 목표 달성 · 재고 현황 · 구매 분석 · "
+          "공급사 평가 · 생산 실적 · 품질 · 설비 가동 · 손익계산서 · 예산 대비 실적 · 채권 연령과 회수 · 자금 현황 · 현금흐름 · 재무비율 · "
+          "인력 현황 · 입·퇴사와 이직 · 인건비와 근태", [(f, u, "") for f, u in std.FILES.values()], [
+        ("기준월", "모든 화면이 기준월 하나를 고른다 (?month=2025-12). 당월 · 1월 ~ 기준월 누계 · 작년 같은 달 · 작년 같은 기간"),
+        ("영업이익", "매출액 − 매출원가 − 판매비와관리비 (16_손익예산)"),
+        ("DSO · DIO · DPO · CCC", "잔액 ÷ 최근 3개월 발행액(출고금액) × 그 3개월 날 수, CCC = DSO + DIO − DPO"),
+        ("OEE", "가동률 × 성능 × 양품률 (15_생산실적)"),
+        ("연 이직률", "최근 12개월 퇴사자 ÷ 월말 인원 평균 × 100"),
+    ], [std.NOTE, "화면마다 맨 아래에 그 화면의 기준 블록이 따로 있어요."], has_block=True),
     Basis("경쟁사 비교", "수익성 비교 (공시 재무제표) · 회사별 재무제표 · 연도별 단순 비교", finance.SOURCE, finance.REF, finance.NOTES, has_block=True),
     Basis("현업용 보고서 · 02 고객현황 · 01 계약현황", "가장 단순한 샘플 · 월간 보고서 · 해지 고객 보고서 · 고객현황 갤러리 · 계약현황 갤러리", [
         ("data/01_계약현황.xlsx ~ data/04_해지요약.xlsx", "가상 데이터 (scripts/gen_NN_*.py로 생성, seed 고정)", "정의서: docs/datasets/01~04"),
