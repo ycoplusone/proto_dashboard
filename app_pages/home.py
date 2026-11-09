@@ -13,15 +13,23 @@ with st.container(border=True):
 
 with st.container(border=True):
     st.subheader("표준리포트 (가상 ERP)")
-    st.caption("회사에서 가장 흔히 보는 리포트 21개 · 가상 회사(제조·판매 중견기업) 2024~2025년 데이터 11개(11~21) · 모든 화면이 기준월 하나를 골라요")
+    st.caption("회사에서 가장 흔히 보는 리포트 32개 (분야 7개 + 한 장 보고서) · 가상 회사(제조·판매 중견기업) 2024~2025년 데이터 11개(11~21) · 모든 화면이 기준월 하나를 골라요")
     AREAS = [
-        ("경영", [("summary", "경영 요약", "dashboard"), ("division", "사업부 성과 비교", "domain"), ("bridge", "영업이익 증감 분해", "waterfall_chart")]),
-        ("매출·영업", [("sales", "매출 분석", "trending_up"), ("customer", "거래처 분석", "handshake"), ("target", "목표 달성", "flag")]),
-        ("구매·재고", [("stock", "재고 현황", "warehouse"), ("purchase", "구매 분석", "shopping_cart"), ("supplier", "공급사 평가", "local_shipping")]),
-        ("생산", [("output", "생산 실적", "factory"), ("quality", "품질", "verified"), ("equipment", "설비 가동", "settings")]),
-        ("회계", [("pl", "손익계산서", "request_quote"), ("budget", "예산 대비 실적", "fact_check"), ("ar", "채권 연령과 회수", "schedule")]),
-        ("재무", [("cash", "자금 현황", "savings"), ("cashflow", "현금흐름", "swap_vert"), ("ratio", "재무비율", "percent")]),
-        ("인사", [("headcount", "인력 현황", "groups"), ("turnover", "입·퇴사와 이직", "person_remove"), ("labor", "인건비와 근태", "schedule")]),
+        ("경영", [("summary", "경영 요약", "dashboard"), ("division", "사업부 성과 비교", "domain"), ("bridge", "영업이익 증감 분해", "waterfall_chart"),
+                ("landing", "연말 착지 전망 (추정)", "flag_circle"), ("exception", "월 마감 예외", "report")]),
+        ("매출·영업", [("sales", "매출 분석", "trending_up"), ("customer", "거래처 분석", "handshake"), ("target", "목표 달성", "flag"),
+                   ("itemprofit", "품목 수익성", "sell"), ("custrisk", "거래처 수익성과 위험", "gpp_maybe")]),
+        ("구매·재고", [("stock", "재고 현황", "warehouse"), ("purchase", "구매 분석", "shopping_cart"), ("supplier", "공급사 평가", "local_shipping"),
+                   ("costchain", "원가 연결고리", "link")]),
+        ("생산", [("output", "생산 실적", "factory"), ("quality", "품질", "verified"), ("equipment", "설비 가동", "settings"),
+                ("sop", "판매·생산·재고 균형", "balance")]),
+        ("회계", [("pl", "손익계산서", "request_quote"), ("budget", "예산 대비 실적", "fact_check"), ("ar", "채권 연령과 회수", "schedule"),
+                ("ap", "매입채무와 지급 일정", "event_upcoming")]),
+        ("재무", [("cash", "자금 현황", "savings"), ("cashflow", "현금흐름", "swap_vert"), ("ratio", "재무비율", "percent"),
+                ("wc", "운전자본", "account_balance_wallet")]),
+        ("인사", [("headcount", "인력 현황", "groups"), ("turnover", "입·퇴사와 이직", "person_remove"), ("labor", "인건비와 근태", "schedule"),
+                ("productivity", "1인당 생산성", "speed")]),
+        ("한 장 보고서", [("item", "품목 (?item=)", "inventory"), ("rep", "영업사원 (?emp=)", "person")]),
     ]
     cols = st.columns(4)
     for i, (area, pages) in enumerate(AREAS):

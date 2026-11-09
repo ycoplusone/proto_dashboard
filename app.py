@@ -25,18 +25,25 @@ st.html(
 )
 
 
-# 표준리포트 21개 (분야, 분야 아이콘, [(파일, 제목, 아이콘)]). 메뉴가 2단계(대분류 > 페이지)까지라
+# 표준리포트 32개 (분야, 분야 아이콘, [(파일, 제목, 아이콘)]). 메뉴가 2단계(대분류 > 페이지)까지라
 # 대분류는 '표준리포트' 하나로 두고, 페이지 이름에 분야를 붙여 '경영/경영 요약'처럼 구분한다. STD_PAGES는 탭 막대(utils/tabs.py, 지금은 꺼 둠)용.
 STD = [
     ("경영", "business_center", [("summary", "경영 요약", "dashboard"), ("division", "사업부 성과 비교", "domain"),
-                               ("bridge", "영업이익 증감 분해", "waterfall_chart")]),
-    ("매출·영업", "point_of_sale", [("sales", "매출 분석", "trending_up"), ("customer", "거래처 분석", "handshake"), ("target", "목표 달성", "flag")]),
+                               ("bridge", "영업이익 증감 분해", "waterfall_chart"), ("landing", "연말 착지 전망", "flag_circle"),
+                               ("exception", "월 마감 예외", "report")]),
+    ("매출·영업", "point_of_sale", [("sales", "매출 분석", "trending_up"), ("customer", "거래처 분석", "handshake"), ("target", "목표 달성", "flag"),
+                                ("itemprofit", "품목 수익성", "sell"), ("custrisk", "거래처 수익성과 위험", "gpp_maybe")]),
     ("구매·재고", "inventory_2", [("stock", "재고 현황", "warehouse"), ("purchase", "구매 분석", "shopping_cart"),
-                              ("supplier", "공급사 평가", "local_shipping")]),
-    ("생산", "precision_manufacturing", [("output", "생산 실적", "factory"), ("quality", "품질", "verified"), ("equipment", "설비 가동", "settings")]),
-    ("회계", "receipt_long", [("pl", "손익계산서", "request_quote"), ("budget", "예산 대비 실적", "fact_check"), ("ar", "채권 연령과 회수", "schedule")]),
-    ("재무", "account_balance", [("cash", "자금 현황", "savings"), ("cashflow", "현금흐름", "swap_vert"), ("ratio", "재무비율", "percent")]),
-    ("인사", "badge", [("headcount", "인력 현황", "groups"), ("turnover", "입·퇴사와 이직", "person_remove"), ("labor", "인건비와 근태", "schedule")]),
+                              ("supplier", "공급사 평가", "local_shipping"), ("costchain", "원가 연결고리", "link")]),
+    ("생산", "precision_manufacturing", [("output", "생산 실적", "factory"), ("quality", "품질", "verified"), ("equipment", "설비 가동", "settings"),
+                                       ("sop", "판매·생산·재고 균형", "balance")]),
+    ("회계", "receipt_long", [("pl", "손익계산서", "request_quote"), ("budget", "예산 대비 실적", "fact_check"), ("ar", "채권 연령과 회수", "schedule"),
+                            ("ap", "매입채무와 지급 일정", "event_upcoming")]),
+    ("재무", "account_balance", [("cash", "자금 현황", "savings"), ("cashflow", "현금흐름", "swap_vert"), ("ratio", "재무비율", "percent"),
+                               ("wc", "운전자본", "account_balance_wallet")]),
+    ("인사", "badge", [("headcount", "인력 현황", "groups"), ("turnover", "입·퇴사와 이직", "person_remove"), ("labor", "인건비와 근태", "schedule"),
+                     ("productivity", "1인당 생산성", "speed")]),
+    ("한 장 보고서", "description", [("item", "품목", "inventory"), ("rep", "영업사원", "person")]),
 ]
 STD_MENU, STD_PAGES = [], {}
 for area, sec_icon, items in STD:

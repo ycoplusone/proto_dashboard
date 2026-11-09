@@ -66,6 +66,7 @@ def target() -> pd.DataFrame:
 def stock() -> pd.DataFrame:
     d = _read("13_재고수불").rename(columns={"기준월": "월"})
     d["출고금액_원"] = d["출고수량"] * d["단위원가_원"]
+    d["입고금액_원"] = d["입고수량"] * d["단위원가_원"]
     return d
 
 
@@ -439,3 +440,37 @@ def days_inventory(m: pd.Timestamp) -> float:
     end = s[s["월"] == m]["기말금액_원"].sum()
     out = s[(s["월"] > m - pd.DateOffset(months=3)) & (s["월"] <= m)]["출고금액_원"].sum()
     return end / out * (me - start).days if out else float("nan")
+
+
+# ------------------------------------------------------------------ 여러 분야를 잇는 계산 (2026-11-09 추가 리포트)
+STOCK_AGE = ["30일 이하", "31~90일", "90일 넘음"]
+
+
+def stock_age(d: pd.DataFrame, mm: pd.Timestamp) -> pd.Series:
+    """재고 연령 = 기준월 말일 − 마지막 출고일 (품목 단위, 재고 현황 화면과 같은 식)."""
+    days = (month_end(mm) - d["최종출고일"]).dt.days
+    return pd.cut(days, [-1, 30, 90, 99999], labels=STOCK_AGE).astype(str)
+
+
+def working_capital(mm: pd.Timestamp) -> pd.Series:
+    """월말 운전자본 = 매출채권(미회수 계산서 합계) + 재고(기말금액) − 매입채무(미지급 계산서 합계)."""
+    me = month_end(mm)
+    ar = open_items(me)["합계_원"].sum()
+    ap = open_items(me, "매입채무")["합계_원"].sum()
+    inv = stock()
+    iv = inv[inv["월"] == mm]["기말금액_원"].sum()
+    return pd.Series({"매출채권": ar, "재고": iv, "매입채무": ap, "운전자본": ar + iv - ap})
+
+
+def won(v: float) -> str:
+    """0.05억 원 밑은 만 원으로 쓴다 ('0.0억 원' 방지)."""
+    return eok(v) if abs(v) >= 0.05e8 else f"{v / 1e4:,.0f}만 원"
+
+
+def upto(m: pd.Timestamp) -> str:
+    """누계 기간 글: 1월이면 '1월', 아니면 '1~6월'."""
+    return "1월" if m.month == 1 else f"1~{m.month}월"
+
+
+def rep_label(code: str, name: str, team: str = "") -> str:
+    return f"{team + ' ' if team else ''}{mask(name)} ({code})"
