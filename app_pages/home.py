@@ -12,6 +12,25 @@ with st.container(border=True):
                  icon=":material/space_dashboard:")
 
 with st.container(border=True):
+    st.subheader("표준리포트 (가상 ERP)")
+    st.caption("회사에서 가장 흔히 보는 리포트 21개 · 가상 회사(제조·판매 중견기업) 2024~2025년 데이터 11개(11~21) · 모든 화면이 기준월 하나를 골라요")
+    AREAS = [
+        ("경영", [("summary", "경영 요약", "dashboard"), ("division", "사업부 성과 비교", "domain"), ("bridge", "영업이익 증감 분해", "waterfall_chart")]),
+        ("매출·영업", [("sales", "매출 분석", "trending_up"), ("customer", "거래처 분석", "handshake"), ("target", "목표 달성", "flag")]),
+        ("구매·재고", [("stock", "재고 현황", "warehouse"), ("purchase", "구매 분석", "shopping_cart"), ("supplier", "공급사 평가", "local_shipping")]),
+        ("생산", [("output", "생산 실적", "factory"), ("quality", "품질", "verified"), ("equipment", "설비 가동", "settings")]),
+        ("회계", [("pl", "손익계산서", "request_quote"), ("budget", "예산 대비 실적", "fact_check"), ("ar", "채권 연령과 회수", "schedule")]),
+        ("재무", [("cash", "자금 현황", "savings"), ("cashflow", "현금흐름", "swap_vert"), ("ratio", "재무비율", "percent")]),
+        ("인사", [("headcount", "인력 현황", "groups"), ("turnover", "입·퇴사와 이직", "person_remove"), ("labor", "인건비와 근태", "schedule")]),
+    ]
+    cols = st.columns(4)
+    for i, (area, pages) in enumerate(AREAS):
+        with cols[i % 4]:
+            st.markdown(f"**{area}**")
+            for f, title, icon in pages:
+                st.page_link(f"app_pages/std/{f}.py", label=title, icon=f":material/{icon}:")
+
+with st.container(border=True):
     st.subheader("경쟁사 비교")
     st.caption("공시 재무제표(z90, DART) · SK브로드밴드·LG헬로비전·KT스카이라이프·딜라이브 · 2023~2025년 연결")
     c1, c2, c3 = st.columns(3)
