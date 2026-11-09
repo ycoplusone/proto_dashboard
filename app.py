@@ -25,8 +25,8 @@ st.html(
 )
 
 
-# 표준리포트 21개 (분야, 대분류 아이콘, [(파일, 제목, 아이콘, 주소)]). 메뉴가 2단계(대분류 > 페이지)까지라
-# '표준리포트 › 분야'를 대분류로 두고 그 아래에 리포트를 둔다. STD_PAGES는 탭 막대(utils/tabs.py, 지금은 꺼 둠)용.
+# 표준리포트 21개 (분야, 분야 아이콘, [(파일, 제목, 아이콘)]). 메뉴가 2단계(대분류 > 페이지)까지라
+# 대분류는 '표준리포트' 하나로 두고, 페이지 이름에 분야를 붙여 '경영/경영 요약'처럼 구분한다. STD_PAGES는 탭 막대(utils/tabs.py, 지금은 꺼 둠)용.
 STD = [
     ("경영", "business_center", [("summary", "경영 요약", "dashboard"), ("division", "사업부 성과 비교", "domain"),
                                ("bridge", "영업이익 증감 분해", "waterfall_chart")]),
@@ -40,8 +40,8 @@ STD = [
 ]
 STD_MENU, STD_PAGES = [], {}
 for area, sec_icon, items in STD:
-    pages = [st.Page(f"app_pages/std/{f}.py", title=t, icon=f":material/{i}:", url_path=f"std-{f}") for f, t, i in items]
-    STD_MENU.append((area, sec_icon, pages))
+    pages = [st.Page(f"app_pages/std/{f}.py", title=f"{area}/{t}", icon=f":material/{i}:", url_path=f"std-{f}") for f, t, i in items]
+    STD_MENU += pages
     STD_PAGES.update({p.url_path: (p, area) for p in pages})
 
 # 메뉴는 대분류(데이터셋) > 페이지 계층으로 묶는다. 페이지마다 고유 주소(url_path)가 있어 링크로 바로 들어갈 수 있다.
@@ -53,7 +53,7 @@ pg = st.navigation(
         section("종합 대시보드", "space_dashboard", "261029"): [
             st.Page("app_pages/overview/dashboard.py", title="한 장으로 보기", icon=":material/space_dashboard:", url_path="overview"),
         ],
-        **{section(f"표준리포트 › {area}", icon, "261106"): pages for area, icon, pages in STD_MENU},
+        section("표준리포트", "business_center", "261106"): STD_MENU,
         section("경쟁사 비교", "compare_arrows", "261103"): [
             st.Page("app_pages/finance/profit.py", title="수익성 비교 (공시 재무제표)", icon=":material/account_balance:", url_path="finance-profit"),
             st.Page("app_pages/finance/statements.py", title="회사별 재무제표", icon=":material/table_chart:", url_path="finance-statements"),
