@@ -7,7 +7,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import churn, dfin, finance, rate, retention, std, track
+from utils import brief, churn, dfin, finance, rate, retention, std, track
 
 Z99 = ("data/z99_2025년실적자료.xlsx", "1행 = 일자 × SO × 사업 × 고객유형 · 2025-01-01 ~ 2025-12-31 (자료 있는 날 363일)",
        "설치건·해지건 (ESTAB_CNT·CLOSE_CNT), 설치금액·해지금액 (ESTAB_AMT·CLOSE_AMT)")
@@ -110,6 +110,15 @@ MENUS = [
         ("재고 개월", "월말 재고 ÷ 최근 3개월 월평균 판매(출고)"),
         ("연말 착지 (추정)", "누계 실적 + 남은 달 계획 × (누계 실적 ÷ 누계 계획)"),
     ], [std.NOTE, "화면마다 맨 아래에 그 화면의 기준 블록이 따로 있어요."], has_block=True),
+    Basis("보고형 · 전달형 리포트 (가상 ISP)", "월간 실적 보고 · 목표 달성 보고 · 해지 원인 보고 · 만료 고객 관리 성과 보고 · 다음 분기 위험 보고 · "
+          "이번 달 운영 지침 · 우리 SO 목표와 진척 · 만료 고객 연락 명단 · 잘한 SO 사례 공유 · 담당자별 만료 고객 관리",
+          [(f, u, "") for f, u in brief.FILES.values()], [
+        ("기준월", "자료 마지막 달 2025년 12월 하나로 고정. 전달형은 SO 하나를 고른다 (?so=수원)"),
+        ("월 해지율", "해지 ÷ 월초 건수 × 1,000 (연간은 1년 해지 ÷ 월초 건수 합)"),
+        ("만료 고객 해지 · 재약정", "2025년 약정이 끝난 계약 100건 중 결과 = 해지(재약정), '결과 대기' 제외"),
+        ("1~3월 예상 해지 (추정)", "2026년 1~3월 만료 예정 계약마다 2025년 같은 묶음의 만료 해지 비율(연락 안 함 · 연락함 · 30일 전 연락)을 곱해 더함"),
+        ("혜택 상한", "6만 원 (그보다 큰 혜택의 재약정이 6만 원과 비슷)"),
+    ], [brief.NOTE, "화면마다 맨 아래에 그 화면의 기준 블록이 따로 있어요."], has_block=True),
     Basis("경쟁사 비교", "수익성 비교 (공시 재무제표) · 회사별 재무제표 · 연도별 단순 비교", finance.SOURCE, finance.REF, finance.NOTES, has_block=True),
     Basis("현업용 보고서 · 02 고객현황 · 01 계약현황", "가장 단순한 샘플 · 월간 보고서 · 해지 고객 보고서 · 고객현황 갤러리 · 계약현황 갤러리", [
         ("data/01_계약현황.xlsx ~ data/04_해지요약.xlsx", "가상 데이터 (scripts/gen_NN_*.py로 생성, seed 고정)", "정의서: docs/datasets/01~04"),

@@ -60,6 +60,20 @@ pg = st.navigation(
         section("종합 대시보드", "space_dashboard", "261029"): [
             st.Page("app_pages/overview/dashboard.py", title="한 장으로 보기", icon=":material/space_dashboard:", url_path="overview"),
         ],
+        section("보고형 리포트", "upgrade", "261110"): [
+            st.Page("app_pages/up/monthly.py", title="월간 실적 보고", icon=":material/summarize:", url_path="up-monthly"),
+            st.Page("app_pages/up/target.py", title="목표 달성 보고", icon=":material/flag:", url_path="up-target"),
+            st.Page("app_pages/up/churn.py", title="해지 원인 보고", icon=":material/person_remove:", url_path="up-churn"),
+            st.Page("app_pages/up/retention.py", title="만료 고객 관리 성과 보고", icon=":material/support_agent:", url_path="up-retention"),
+            st.Page("app_pages/up/risk.py", title="다음 분기 위험 보고", icon=":material/warning:", url_path="up-risk"),
+        ],
+        section("전달형 리포트", "campaign", "261110"): [
+            st.Page("app_pages/down/guide.py", title="이번 달 운영 지침", icon=":material/assignment:", url_path="down-guide"),
+            st.Page("app_pages/down/progress.py", title="우리 SO 목표와 진척", icon=":material/track_changes:", url_path="down-progress"),
+            st.Page("app_pages/down/calllist.py", title="만료 고객 연락 명단", icon=":material/call:", url_path="down-calllist"),
+            st.Page("app_pages/down/best.py", title="잘한 SO 사례 공유", icon=":material/emoji_events:", url_path="down-best"),
+            st.Page("app_pages/down/staff.py", title="담당자별 만료 고객 관리", icon=":material/badge:", url_path="down-staff"),
+        ],
         section("표준리포트", "business_center", "261106"): STD_MENU,
         section("경쟁사 비교", "compare_arrows", "261103"): [
             st.Page("app_pages/finance/profit.py", title="수익성 비교 (공시 재무제표)", icon=":material/account_balance:", url_path="finance-profit"),

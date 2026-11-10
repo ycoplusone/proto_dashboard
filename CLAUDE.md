@@ -74,6 +74,8 @@ app_pages/                # 페이지별 화면
   home.py                 # 홈 (모든 화면 링크)
   theme.py                # 테마 바꾸기 (15종 미리 보기·적용)
   overview/dashboard.py   # 종합 대시보드 (모든 리포트 결론을 한 장에), 데이터 z96 + z98 + z97
+  up/                     # 보고형 리포트 5개 (실무자 → 임원: 월간 실적·목표 달성·해지 원인·만료 고객 관리 성과·다음 분기 위험), 가상 ISP 데이터 31~34
+  down/                   # 전달형 리포트 5개 (임원 → 실무자, ?so=: 운영 지침·목표와 진척·연락 명단·잘한 SO 사례·담당자별), 가상 ISP 데이터 31~34
   std/                    # 표준리포트 32개 화면 (경영·매출영업·구매재고·생산·회계·재무·인사 + 한 장 보고서 2개), 가상 ERP 데이터 11~21
   dfin/                   # 딜라이브 재무 분석 6개 화면 (매출은 왜 줄었나·비용 구조·영업이익에서 순손실까지·빚과 버틸 힘·13년 추이·2026년 가정해 보기), 데이터 z89 (딜라이브 연결감사보고서 2013~2025)
   finance/                # 경쟁사 비교 3개 화면 (수익성 비교·회사별 재무제표·연도별 단순 비교), 데이터 z90 공시 재무제표 (4개 회사 2023~2025년 연결)
@@ -98,6 +100,7 @@ utils/
   customers.py            # 02_고객현황 로딩·월별 집계·그룹별 해지율
   tabs.py                 # 표준리포트 탭 막대 (연 리포트를 탭으로 쌓고 ✕로 닫기, tab_bar) — 2026-11-06 사용자 요청으로 꺼 둠
   std.py                  # 표준리포트 11~21 로딩·기준월(pick_month)·손익(monthly_pl)·채권(open_items, days_outstanding)·재고 연령(stock_age)·운전자본(working_capital)·차트(yoy_lines, mlines, vbars, stacked, waterfall, pareto)
+  brief.py                # 보고형·전달형 31~34 로딩·월별 집계(monthly, year, by_so)·만료 고객 관리(care25, rates, so_care, staff_card)·1~3월 전망(plan, plan_sum, pace)·결정 요청(decision)·할 일(todo)
   dfin.py                 # z89_딜라이브재무상세 로딩·본문(body)·수익원(rev)·비용 묶음(cost)·선/막대 헬퍼(lines, vbars)
   finance.py              # z90_공시재무제표 로딩·수익성 비율(영업이익률·순이익률·영업현금흐름·부채비율·ROA)
   track.py                # 통합 데이터 z93·z92·z91 로딩(cache_resource)·2년 결과(outcome)·새 가입(new_installs)·상품 변경(changes, grade)·고객 단위(customers)
@@ -116,7 +119,7 @@ utils/
   viz.py                  # 차트 공통 팔레트·Plotly 템플릿·카드 헬퍼
 data/                     # 엑셀 데이터 파일
   geo/                    # 지도용 시도·시군구 경계 GeoJSON
-scripts/                  # 데이터 생성 스크립트 (gen_NN_*.py, build_geo.py, fetch_dart.py = z90, fetch_dlive_detail.py = z89, gen_erp.py = 표준리포트 11~21 한 번에) — gen_03은 02를 집계 / convert_z98.py·convert_z97.py = CSV → Parquet
+scripts/                  # 데이터 생성 스크립트 (gen_NN_*.py, build_geo.py, fetch_dart.py = z90, fetch_dlive_detail.py = z89, gen_erp.py = 표준리포트 11~21 한 번에, gen_brief.py = 보고형·전달형 31~34 한 번에) — gen_03은 02를 집계 / convert_z98.py·convert_z97.py = CSV → Parquet
 docs/                     # 문서 보관 (데이터 파일은 넣지 않음)
   datasets/               # 데이터셋별 컬럼 정의서·패턴 목록
 .streamlit/               # 서버/테마 설정
@@ -308,6 +311,14 @@ docs/                     # 문서 보관 (데이터 파일은 넣지 않음)
     - 누계 기간 글은 `upto(m)` ('1~1월' 방지), 아주 작은 금액은 `won()` ('0.0억 원' 방지).
     - AppTest에서 `query_params`로 넘긴 `?item=`은 `switch_page` 뒤에 사라진다. 대상 선택은 `at.selectbox(key="item").set_value(...)`로 확인한다.
   - 영업이익 증감 분해: 품목마다 물량 = (올해 수량 − 작년 수량) × 작년 개당 이익, 단가 = 단가 차이 × 올해 수량, 원가 = −단위원가 차이 × 올해 수량 (세 개 합 = 매출총이익 증감, 식으로 정확히 맞음) + 판관비 증감.
+
+- (2026-11-10) 메뉴 대분류 **보고형 리포트**·**전달형 리포트** 추가 (사용자 요청: 실무자가 임원에게 보고하는 리포트와 임원이 실무자에게 알려 주는 리포트를 각각 상위 메뉴로, 데이터는 가상으로). 가상 ISP 회사(SO 12곳, 2024~2025년) 데이터 4개 `data/31_SO월별실적.xlsx` ~ `data/34_만료고객관리.xlsx`, 정의서 `docs/datasets/31-34_보고형전달형.md`, 스크립트 `scripts/gen_brief.py`(계약 단위로 한 달씩 움직여 네 파일을 맞춘다, 약 2분).
+  - 보고형 `/up-monthly`·`-target`·`-churn`·`-retention`·`-risk`: **합니다체**, 결론 → 근거 → 어디서 → 위험 → 대응안(추정) → **결정해 주실 것**(`decision()`). 결정 요청 문장의 숫자도 데이터로 계산한다.
+  - 전달형 `/down-guide`·`-progress`·`-calllist`·`-best`·`-staff`: **해요체**, SO 하나를 고른다(`?so=수원`, `st.selectbox(..., bind="query-params")`, SO 한 장 보고서와 같은 예외). 회사 중점 → 우리 SO 위치 → 할 일(`todo()`, `st.page_link(..., query_params={"so": so})`) → 명단.
+  - 기준월은 2025년 12월 하나로 고정한다 (33이 2025-12-31 기준 스냅샷이라).
+  - 같은 숫자는 두 메뉴가 같은 함수로 계산한다. 처음에 운영 지침과 연락 명단의 '한 주 연락 건수'를 따로 계산해서 51건 vs 34건이 나왔다 → `pace()` 하나로 맞췄다.
+  - SO를 바꿔 가며 문장을 점검한다 (12곳 모두 AppTest). 잘한 SO가 자기 자신과 비교되는 문장("수원 SO보다 0건 적어요"), "12곳 중 12번째로 낮아요"(→ `place()`: 1위·꼴찌·뒤에서 N번째), 데이터로 확인하지 않은 "차이는 연락 시점에서 나와요"(→ 7일 넘게 차이 날 때만)를 고쳤다.
+  - 홈 캡션의 `2024~2025년 … (31~34)`도 `~` 두 개라 취소선이 된다 (`st.caption`도 마크다운). 표준리포트 캡션도 같이 고쳤다.
 
 ## 다음 작업 후보
 

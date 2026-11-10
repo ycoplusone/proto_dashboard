@@ -12,8 +12,27 @@ with st.container(border=True):
                  icon=":material/space_dashboard:")
 
 with st.container(border=True):
+    st.subheader("보고형 · 전달형 리포트 (가상 ISP)")
+    st.caption("같은 데이터를 두 방향으로 · 가상 ISP 회사(SO 12곳) 2024\\~2025년 데이터 4개(31\\~34) · 2025년 12월 기준")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("**보고형 — 실무자가 임원에게** (결론 → 근거 → 원인 → 대응안 → 결정 요청)")
+        st.page_link("app_pages/up/monthly.py", label="월간 실적 보고", icon=":material/summarize:")
+        st.page_link("app_pages/up/target.py", label="목표 달성 보고", icon=":material/flag:")
+        st.page_link("app_pages/up/churn.py", label="해지 원인 보고", icon=":material/person_remove:")
+        st.page_link("app_pages/up/retention.py", label="만료 고객 관리 성과 보고", icon=":material/support_agent:")
+        st.page_link("app_pages/up/risk.py", label="다음 분기 위험 보고", icon=":material/warning:")
+    with c2:
+        st.markdown("**전달형 — 임원이 실무자에게** (회사 중점 → 우리 SO 위치 → 할 일 → 명단, ?so=)")
+        st.page_link("app_pages/down/guide.py", label="이번 달 운영 지침", icon=":material/assignment:")
+        st.page_link("app_pages/down/progress.py", label="우리 SO 목표와 진척", icon=":material/track_changes:")
+        st.page_link("app_pages/down/calllist.py", label="만료 고객 연락 명단", icon=":material/call:")
+        st.page_link("app_pages/down/best.py", label="잘한 SO 사례 공유", icon=":material/emoji_events:")
+        st.page_link("app_pages/down/staff.py", label="담당자별 만료 고객 관리", icon=":material/badge:")
+
+with st.container(border=True):
     st.subheader("표준리포트 (가상 ERP)")
-    st.caption("회사에서 가장 흔히 보는 리포트 32개 (분야 7개 + 한 장 보고서) · 가상 회사(제조·판매 중견기업) 2024~2025년 데이터 11개(11~21) · 모든 화면이 기준월 하나를 골라요")
+    st.caption("회사에서 가장 흔히 보는 리포트 32개 (분야 7개 + 한 장 보고서) · 가상 회사(제조·판매 중견기업) 2024\\~2025년 데이터 11개(11\\~21) · 모든 화면이 기준월 하나를 골라요")
     AREAS = [
         ("경영", [("summary", "경영 요약", "dashboard"), ("division", "사업부 성과 비교", "domain"), ("bridge", "영업이익 증감 분해", "waterfall_chart"),
                 ("landing", "연말 착지 전망 (추정)", "flag_circle"), ("exception", "월 마감 예외", "report")]),
