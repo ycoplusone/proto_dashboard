@@ -1,21 +1,21 @@
-# active-theme: solarized
+# active-theme: modern
 [server]
 port = 8501
 runOnSave = true
 
-# 테마: 솔라라이즈드 — '도구 > 테마 바꾸기' 화면에서 바꾸면 아래가 다시 써진다 (utils/theme.py)
+# 테마: 모던 블루 — '도구 > 테마 바꾸기' 화면에서 바꾸면 아래가 다시 써진다 (utils/theme.py)
 [theme]
 base = "light"
-primaryColor = "#1F6FB2"
-backgroundColor = "#FDF6E3"
-secondaryBackgroundColor = "#EEE8D5"
-textColor = "#073642"
-borderColor = "#E0D8C0"
-linkColor = "#1F6FB2"
+primaryColor = "#2a78d6"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F6F9"
+textColor = "#1F2937"
+borderColor = "#E6E8EC"
+linkColor = "#2a78d6"
 showWidgetBorder = true
 showSidebarBorder = true
-baseRadius = "8px"
-buttonRadius = "8px"
+baseRadius = "12px"
+buttonRadius = "12px"
 font = "'Pretendard Variable':https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
 baseFontSize = 17
 headingFontSizes = ["32px", "24px", "20px", "18px", "17px", "16px"]
@@ -23,13 +23,13 @@ headingFontWeights = [700, 700, 600, 600, 600, 600]
 metricValueFontSize = "2rem"
 metricValueFontWeight = 700
 linkUnderline = false
-dataframeHeaderBackgroundColor = "#EEE8D5"
-dataframeBorderColor = "#E0D8C0"
+dataframeHeaderBackgroundColor = "#F4F6F9"
+dataframeBorderColor = "#E6E8EC"
 
 [theme.sidebar]
-backgroundColor = "#EEE8D5"
-secondaryBackgroundColor = "#E4DCC4"
-textColor = "#073642"
-borderColor = "#D8CFB4"
-primaryColor = "#1F6FB2"
-linkColor = "#1F6FB2"
+backgroundColor = "#F8F9FB"
+secondaryBackgroundColor = "#EEF1F5"
+textColor = "#1F2937"
+borderColor = "#E6E8EC"
+primaryColor = "#2a78d6"
+linkColor = "#2a78d6"
