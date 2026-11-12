@@ -60,6 +60,11 @@ pg = st.navigation(
         section("종합 대시보드", "space_dashboard", "261029"): [
             st.Page("app_pages/overview/dashboard.py", title="한 장으로 보기", icon=":material/space_dashboard:", url_path="overview"),
         ],
+        section("직관 리포트", "visibility", "261111"): [
+            st.Page("app_pages/easy/check.py", title="점검표", icon=":material/checklist:", url_path="easy-check"),
+            st.Page("app_pages/easy/bridge.py", title="변화 다리", icon=":material/waterfall_chart:", url_path="easy-bridge"),
+            st.Page("app_pages/easy/qa.py", title="질문 5개 보고서", icon=":material/quiz:", url_path="easy-qa"),
+        ],
         section("보고형 리포트", "upgrade", "261110"): [
             st.Page("app_pages/up/monthly.py", title="월간 실적 보고", icon=":material/summarize:", url_path="up-monthly"),
             st.Page("app_pages/up/target.py", title="목표 달성 보고", icon=":material/flag:", url_path="up-target"),

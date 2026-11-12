@@ -12,6 +12,14 @@ with st.container(border=True):
                  icon=":material/space_dashboard:")
 
 with st.container(border=True):
+    st.subheader("직관 리포트 (가상 ISP)")
+    st.caption("스크롤 없이 한 화면에서 확인과 이해가 끝나는 표준 형식 · 질문 하나 = 화면 하나 · 데이터 31\\~34 · 2025년 결산")
+    c = st.columns(3)
+    c[0].page_link("app_pages/easy/check.py", label="점검표 — 무엇이 문제인가?", icon=":material/checklist:")
+    c[1].page_link("app_pages/easy/bridge.py", label="변화 다리 — 왜 바뀌었나?", icon=":material/waterfall_chart:")
+    c[2].page_link("app_pages/easy/qa.py", label="질문 5개 보고서 — 임원이 물어볼 것", icon=":material/quiz:")
+
+with st.container(border=True):
     st.subheader("보고형 · 전달형 리포트 (가상 ISP)")
     st.caption("같은 데이터를 두 방향으로 · 가상 ISP 회사(SO 12곳) 2024\\~2025년 데이터 4개(31\\~34) · 2025년 12월 기준")
     c1, c2 = st.columns(2)
