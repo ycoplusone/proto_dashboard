@@ -39,10 +39,28 @@ def dot(s: str, size: int = 14) -> str:
             f"vertical-align:middle;{style}'></span>")
 
 
-def header(kind: str, headline: str):
+def header(kind: str, headline: str, prefix: str = "직관 리포트"):
     """머리 두 줄: 캡션(형식 · 데이터 · 기준) + 결론 한 문장."""
-    st.caption(f"직관 리포트 · {kind} · 가상 ISP 회사(SO 12곳) · 2025년 결산 (12월 기준)")
+    st.caption(f"{prefix} · {kind} · 가상 ISP 회사(SO 12곳) · 2025년 결산 (12월 기준)")
     st.markdown(f"### {headline}")
+
+
+def ask(items: list[str], title: str = "결정해 주실 것", icon: str = "gavel"):
+    """오른쪽 칸: 번호 목록 (보고형 = 결정해 주실 것)."""
+    with st.container(border=True, height="stretch"):
+        st.markdown(f"##### :material/{icon}: {title}")
+        st.markdown("\n".join(f"{i}. {x}" for i, x in enumerate(items, 1)))
+
+
+def todo_card(items: list[tuple], title: str = "우리 SO가 할 일"):
+    """오른쪽 칸: 할 일 (굵은 한 줄 + 설명 + 링크). items = (할 일, 설명, 페이지, query_params)."""
+    with st.container(border=True, height="stretch"):
+        st.markdown(f"##### :material/checklist: {title}")
+        for i, (head, body, page, qp) in enumerate(items, 1):
+            st.markdown(f"**{i}. {head}**")
+            st.caption(body)
+            if page:
+                st.page_link(page, label="바로 가기", icon=":material/arrow_forward:", query_params=qp or {})
 
 
 def grid(columns: list[str], rows: list[list[str]], align: list[str] | None = None, font: int = 17, pad: int = 9,
@@ -113,12 +131,12 @@ def spark(values: list[float], labels: list[str], height: int = 70):
     show(fig, height=height)
 
 
-def pick_so(kind: str) -> str:
+def pick_so(kind: str, prefix: str = "직관 리포트") -> str:
     """SO 하나를 고르는 화면의 머리 줄 (캡션 + 선택 상자 한 줄, ?so=수원)."""
     from utils.brief import so_order
     sos = so_order()
     if st.session_state.get("so") not in sos:
         st.session_state["so"] = "강동"
     c1, c2 = st.columns([5, 1], vertical_alignment="bottom")
-    c1.caption(f"직관 리포트 · {kind} · 가상 ISP 회사(SO 12곳) · 2025년 결산 (12월 기준) · 주소 ?so= 로 링크 공유")
+    c1.caption(f"{prefix} · {kind} · 가상 ISP 회사(SO 12곳) · 2025년 결산 (12월 기준) · 주소 ?so= 로 링크 공유")
     return c2.selectbox("우리 SO", sos, key="so", bind="query-params", label_visibility="collapsed")
