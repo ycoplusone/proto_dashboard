@@ -12,6 +12,34 @@ with st.container(border=True):
                  icon=":material/space_dashboard:")
 
 with st.container(border=True):
+    st.subheader("직관 리포트 (가상 ISP)")
+    st.caption("스크롤 없이 한 화면에서 확인과 이해가 끝나는 표준 형식 · 질문 하나 = 화면 하나 · 데이터 31\\~34 · 2025년 결산")
+    c = st.columns(4)
+    c[0].page_link("app_pages/easy/check.py", label="점검표 — 무엇이 문제인가?", icon=":material/checklist:")
+    c[1].page_link("app_pages/easy/target.py", label="목표 진척 — 목표를 채웠나?", icon=":material/flag:")
+    c[2].page_link("app_pages/easy/bridge.py", label="변화 다리 — 왜 바뀌었나?", icon=":material/waterfall_chart:")
+    c[3].page_link("app_pages/easy/changes.py", label="바뀐 것 5개 — 지난달과 뭐가 달라졌나?", icon=":material/published_with_changes:")
+    c = st.columns(4)
+    c[0].page_link("app_pages/easy/rank.py", label="순위표 — 누가 내려왔나?", icon=":material/leaderboard:")
+    c[1].page_link("app_pages/easy/peer.py", label="우리 vs 잘한 곳 — 무엇을 따라 하나? (?so=)", icon=":material/compare:")
+    c[2].page_link("app_pages/easy/qa.py", label="질문 5개 보고서 — 임원이 물어볼 것", icon=":material/quiz:")
+
+with st.container(border=True):
+    st.subheader("보고형 · 전달형 한 화면 (가상 ISP)")
+    st.caption("보고형·전달형 10개를 직관 리포트 틀로 다시 정리 · 스크롤 없이 결론 → 숫자 4개 → 근거 2개 → 결정 요청(할 일) · 기존 화면은 그대로 둬요")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("**보고형 · 한 화면 — 실무자가 임원에게**")
+        for f_, t_, i_ in [("monthly", "월간 실적 보고", "summarize"), ("target", "목표 달성 보고", "flag"), ("churn", "해지 원인 보고", "person_remove"),
+                           ("retention", "만료 고객 관리 성과 보고", "support_agent"), ("risk", "다음 분기 위험 보고", "warning")]:
+            st.page_link(f"app_pages/up1/{f_}.py", label=t_, icon=f":material/{i_}:")
+    with c2:
+        st.markdown("**전달형 · 한 화면 — 임원이 실무자에게** (?so=)")
+        for f_, t_, i_ in [("guide", "이번 달 운영 지침", "assignment"), ("progress", "우리 SO 목표와 진척", "track_changes"),
+                           ("calllist", "만료 고객 연락 명단", "call"), ("best", "잘한 SO 사례 공유", "emoji_events"), ("staff", "담당자별 만료 고객 관리", "badge")]:
+            st.page_link(f"app_pages/down1/{f_}.py", label=t_, icon=f":material/{i_}:")
+
+with st.container(border=True):
     st.subheader("보고형 · 전달형 리포트 (가상 ISP)")
     st.caption("같은 데이터를 두 방향으로 · 가상 ISP 회사(SO 12곳) 2024\\~2025년 데이터 4개(31\\~34) · 2025년 12월 기준")
     c1, c2 = st.columns(2)

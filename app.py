@@ -60,6 +60,29 @@ pg = st.navigation(
         section("종합 대시보드", "space_dashboard", "261029"): [
             st.Page("app_pages/overview/dashboard.py", title="한 장으로 보기", icon=":material/space_dashboard:", url_path="overview"),
         ],
+        section("직관 리포트", "visibility", "261111"): [
+            st.Page("app_pages/easy/check.py", title="점검표", icon=":material/checklist:", url_path="easy-check"),
+            st.Page("app_pages/easy/target.py", title="목표 진척", icon=":material/flag:", url_path="easy-target"),
+            st.Page("app_pages/easy/bridge.py", title="변화 다리", icon=":material/waterfall_chart:", url_path="easy-bridge"),
+            st.Page("app_pages/easy/changes.py", title="바뀐 것 5개", icon=":material/published_with_changes:", url_path="easy-changes"),
+            st.Page("app_pages/easy/rank.py", title="순위표", icon=":material/leaderboard:", url_path="easy-rank"),
+            st.Page("app_pages/easy/peer.py", title="우리 vs 잘한 곳", icon=":material/compare:", url_path="easy-peer"),
+            st.Page("app_pages/easy/qa.py", title="질문 5개 보고서", icon=":material/quiz:", url_path="easy-qa"),
+        ],
+        section("보고형 · 한 화면", "upgrade", "261112"): [
+            st.Page("app_pages/up1/monthly.py", title="월간 실적 보고", icon=":material/summarize:", url_path="up1-monthly"),
+            st.Page("app_pages/up1/target.py", title="목표 달성 보고", icon=":material/flag:", url_path="up1-target"),
+            st.Page("app_pages/up1/churn.py", title="해지 원인 보고", icon=":material/person_remove:", url_path="up1-churn"),
+            st.Page("app_pages/up1/retention.py", title="만료 고객 관리 성과 보고", icon=":material/support_agent:", url_path="up1-retention"),
+            st.Page("app_pages/up1/risk.py", title="다음 분기 위험 보고", icon=":material/warning:", url_path="up1-risk"),
+        ],
+        section("전달형 · 한 화면", "campaign", "261112"): [
+            st.Page("app_pages/down1/guide.py", title="이번 달 운영 지침", icon=":material/assignment:", url_path="down1-guide"),
+            st.Page("app_pages/down1/progress.py", title="우리 SO 목표와 진척", icon=":material/track_changes:", url_path="down1-progress"),
+            st.Page("app_pages/down1/calllist.py", title="만료 고객 연락 명단", icon=":material/call:", url_path="down1-calllist"),
+            st.Page("app_pages/down1/best.py", title="잘한 SO 사례 공유", icon=":material/emoji_events:", url_path="down1-best"),
+            st.Page("app_pages/down1/staff.py", title="담당자별 만료 고객 관리", icon=":material/badge:", url_path="down1-staff"),
+        ],
         section("보고형 리포트", "upgrade", "261110"): [
             st.Page("app_pages/up/monthly.py", title="월간 실적 보고", icon=":material/summarize:", url_path="up-monthly"),
             st.Page("app_pages/up/target.py", title="목표 달성 보고", icon=":material/flag:", url_path="up-target"),
