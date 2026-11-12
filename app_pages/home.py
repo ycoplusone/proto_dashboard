@@ -14,9 +14,14 @@ with st.container(border=True):
 with st.container(border=True):
     st.subheader("직관 리포트 (가상 ISP)")
     st.caption("스크롤 없이 한 화면에서 확인과 이해가 끝나는 표준 형식 · 질문 하나 = 화면 하나 · 데이터 31\\~34 · 2025년 결산")
-    c = st.columns(3)
+    c = st.columns(4)
     c[0].page_link("app_pages/easy/check.py", label="점검표 — 무엇이 문제인가?", icon=":material/checklist:")
-    c[1].page_link("app_pages/easy/bridge.py", label="변화 다리 — 왜 바뀌었나?", icon=":material/waterfall_chart:")
+    c[1].page_link("app_pages/easy/target.py", label="목표 진척 — 목표를 채웠나?", icon=":material/flag:")
+    c[2].page_link("app_pages/easy/bridge.py", label="변화 다리 — 왜 바뀌었나?", icon=":material/waterfall_chart:")
+    c[3].page_link("app_pages/easy/changes.py", label="바뀐 것 5개 — 지난달과 뭐가 달라졌나?", icon=":material/published_with_changes:")
+    c = st.columns(4)
+    c[0].page_link("app_pages/easy/rank.py", label="순위표 — 누가 내려왔나?", icon=":material/leaderboard:")
+    c[1].page_link("app_pages/easy/peer.py", label="우리 vs 잘한 곳 — 무엇을 따라 하나? (?so=)", icon=":material/compare:")
     c[2].page_link("app_pages/easy/qa.py", label="질문 5개 보고서 — 임원이 물어볼 것", icon=":material/quiz:")
 
 with st.container(border=True):

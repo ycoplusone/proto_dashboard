@@ -74,7 +74,7 @@ app_pages/                # 페이지별 화면
   home.py                 # 홈 (모든 화면 링크)
   theme.py                # 테마 바꾸기 (15종 미리 보기·적용)
   overview/dashboard.py   # 종합 대시보드 (모든 리포트 결론을 한 장에), 데이터 z96 + z98 + z97
-  easy/                   # 직관 리포트 3개 (스크롤 없는 한 화면: 점검표·변화 다리·질문 5개 보고서), 가상 ISP 데이터 31~34
+  easy/                   # 직관 리포트 7개 (스크롤 없는 한 화면: 점검표·목표 진척·변화 다리·바뀐 것 5개·순위표·우리 vs 잘한 곳·질문 5개 보고서), 가상 ISP 데이터 31~34
   up/                     # 보고형 리포트 5개 (실무자 → 임원: 월간 실적·목표 달성·해지 원인·만료 고객 관리 성과·다음 분기 위험), 가상 ISP 데이터 31~34
   down/                   # 전달형 리포트 5개 (임원 → 실무자, ?so=: 운영 지침·목표와 진척·연락 명단·잘한 SO 사례·담당자별), 가상 ISP 데이터 31~34
   std/                    # 표준리포트 32개 화면 (경영·매출영업·구매재고·생산·회계·재무·인사 + 한 장 보고서 2개), 가상 ERP 데이터 11~21
@@ -101,7 +101,7 @@ utils/
   customers.py            # 02_고객현황 로딩·월별 집계·그룹별 해지율
   tabs.py                 # 표준리포트 탭 막대 (연 리포트를 탭으로 쌓고 ✕로 닫기, tab_bar) — 2026-11-06 사용자 요청으로 꺼 둠
   std.py                  # 표준리포트 11~21 로딩·기준월(pick_month)·손익(monthly_pl)·채권(open_items, days_outstanding)·재고 연령(stock_age)·운전자본(working_capital)·차트(yoy_lines, mlines, vbars, stacked, waterfall, pareto)
-  easy.py                 # 직관 리포트 공통: 상태 3단계(status, dot)·큰 글자 표(grid, st.html)·머리(header)·접힌 기준 블록(basis)
+  easy.py                 # 직관 리포트 공통: 상태 3단계(status, dot)·큰 글자 표(grid, st.html)·머리(header)·접힌 기준 블록(basis)·목표 진척 막대(bullet)·작은 막대 추이(spark)·SO 고르기 머리 줄(pick_so)
   brief.py                # 보고형·전달형 31~34 로딩·월별 집계(monthly, year, by_so)·만료 고객 관리(care25, rates, so_care, staff_card)·1~3월 전망(plan, plan_sum, pace)·결정 요청(decision)·할 일(todo)
   dfin.py                 # z89_딜라이브재무상세 로딩·본문(body)·수익원(rev)·비용 묶음(cost)·선/막대 헬퍼(lines, vbars)
   finance.py              # z90_공시재무제표 로딩·수익성 비율(영업이익률·순이익률·영업현금흐름·부채비율·ROA)
@@ -327,6 +327,9 @@ docs/                     # 문서 보관 (데이터 파일은 넣지 않음)
   - **한 화면 규칙**: 1920×1080 브라우저(안쪽 약 1920×950)에서 내용이 모두 보인다. 머리는 캡션 한 줄 + 결론 한 문장(`st.title` 안 씀), 기준과 계산식은 맨 아래 **접힌 칸**(`basis()` = expander 안의 `reference()`). 화면 높이는 헤드리스 크롬으로 찍어 확인한다.
   - 상태는 3단계: 나쁨(파랑 점) · 주의(파랑 테두리 점, 기준과 5% 안쪽) · 좋음(회색 점). 표는 나쁨이 위로 오게 정렬한다. 큰 글자 표는 `st.html`(`grid()`), 색은 `palette()`로 테마를 따른다.
   - 화면 확인용 헤드리스 크롬: `.venv`에 playwright + chromium-headless-shell을 설치했다. 시스템 라이브러리(libnss3·libnspr4·libasound2)는 sudo 없이 `apt-get download` → `dpkg -x`로 `~/.cache/chromelibs`에 풀고 `LD_LIBRARY_PATH`로 쓴다. 사용자 서버(8501)를 건드리지 않게 다른 포트(8599)로 띄워서 찍는다.
+  - (2026-11-12) 나머지 형식 4개 추가 (사용자: "나머지 형식도 같은 틀로"): `/easy-target` 목표 진척(목표선 하나 + 목표 대비 막대, SO별 만료 고객 연락 진척), `/easy-changes` 바뀐 것 5개(후보 숫자 수십 개 중 12월 − 11월 차이가 '평소 한 달 변동'(월 차이 크기 중앙값)의 몇 배인지로 5개), `/easy-rank` 순위표(네 지표 순위의 합, 작년 순위 대비 ▲▼, 3계단 넘게 내려오면 파랑), `/easy-peer` 우리 vs 잘한 곳(`?so=`, 같은 항목을 나란히, 나쁨이 위로).
+  - 목표 진척 막대의 글은 목표선 오른쪽에 둔다 (막대 끝에 두면 목표선과 겹친다). 숫자 차이가 반올림해서 0이면 '−0'이 아니라 '0'으로 쓴다.
+  - 헤드리스 크롬으로 찍을 때 테스트 서버를 끄는 명령에 `pkill -f "...8599"`를 쓰면 같은 글자가 든 내 셸까지 죽는다. `ss -ltnp`로 PID를 찾아 끈다.
   - Streamlit 본문 아래 여백 때문에 내용이 화면 안에 들어가도 50~70px 정도 빈 스크롤이 남는다 (CSS 금지라 그대로 둠).
 
 ## 다음 작업 후보

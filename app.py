@@ -62,7 +62,11 @@ pg = st.navigation(
         ],
         section("직관 리포트", "visibility", "261111"): [
             st.Page("app_pages/easy/check.py", title="점검표", icon=":material/checklist:", url_path="easy-check"),
+            st.Page("app_pages/easy/target.py", title="목표 진척", icon=":material/flag:", url_path="easy-target"),
             st.Page("app_pages/easy/bridge.py", title="변화 다리", icon=":material/waterfall_chart:", url_path="easy-bridge"),
+            st.Page("app_pages/easy/changes.py", title="바뀐 것 5개", icon=":material/published_with_changes:", url_path="easy-changes"),
+            st.Page("app_pages/easy/rank.py", title="순위표", icon=":material/leaderboard:", url_path="easy-rank"),
+            st.Page("app_pages/easy/peer.py", title="우리 vs 잘한 곳", icon=":material/compare:", url_path="easy-peer"),
             st.Page("app_pages/easy/qa.py", title="질문 5개 보고서", icon=":material/quiz:", url_path="easy-qa"),
         ],
         section("보고형 리포트", "upgrade", "261110"): [

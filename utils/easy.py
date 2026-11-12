@@ -72,3 +72,53 @@ def basis(sources: list[tuple], rows: list[tuple], notes: list[str] = ()):
     """기준과 계산식은 접어 둔다 (한 화면 규칙). 펼치면 다른 리포트와 같은 블록."""
     with st.expander("기준과 계산식 · 데이터 소스", icon=":material/functions:"):
         reference(sources, rows, notes, title="이 리포트의 기준과 계산식")
+
+
+def bullet(labels: list[str], pct: list[float], states: list[str], text: list[str], height: int | None = None, room: float = 1.8):
+    """목표 진척 막대: 회색 길 = 목표(100%), 그 위 막대 = 실적(목표 대비 %), 세로선 = 목표. 나쁨만 파랑."""
+    import plotly.graph_objects as go
+
+    from utils.daily import show
+    P = palette()
+    top = max(110, max(pct) * 1.05)
+    fig = go.Figure()
+    fig.add_bar(y=labels, x=[100] * len(labels), orientation="h", width=0.62, marker=dict(color=P["grid"], cornerradius=4),
+                hoverinfo="skip")
+    fig.add_bar(y=labels, x=pct, orientation="h", width=0.34, marker=dict(color=[P["accent"] if s == "bad" else P["neutral"] for s in states],
+                cornerradius=3), hoverinfo="skip")
+    # 글은 목표선 오른쪽(실적이 목표를 넘으면 막대 끝 오른쪽)에 적어 선과 겹치지 않게 한다
+    fig.add_scatter(y=labels, x=[max(v, 100) + top * 0.02 for v in pct], mode="text", text=text, textposition="middle right",
+                    textfont=dict(color=P["ink"], size=13), cliponaxis=False, hoverinfo="skip")
+    fig.add_vline(x=100, line=dict(color=P["ink"], width=2))
+    fig.update_layout(barmode="overlay", showlegend=False, bargap=0.2)
+    fig.update_xaxes(visible=False, range=[0, top * room])
+    fig.update_yaxes(autorange="reversed", tickfont=dict(color=P["ink"], size=14))
+    show(fig, height=height or 60 * len(labels) + 20)
+
+
+def spark(values: list[float], labels: list[str], height: int = 70):
+    """작은 막대 추이 (마지막 막대만 파랑, 값은 마지막 두 개만 적는다)."""
+    import plotly.graph_objects as go
+
+    from utils.daily import show
+    P = palette()
+    n = len(values)
+    fig = go.Figure(go.Bar(x=labels, y=values, marker=dict(color=[P["neutral"]] * (n - 1) + [P["accent"]], cornerradius=2),
+                           text=[""] * (n - 2) + [f"{v:,.0f}" for v in values[-2:]], textposition="outside", cliponaxis=False,
+                           textfont=dict(color=P["ink"], size=11), hovertemplate="%{x}: %{y:,.0f}<extra></extra>"))
+    lo = min(0, min(values))
+    fig.update_yaxes(visible=False, range=[lo, max(values) * 1.35])
+    fig.update_xaxes(visible=False, type="category")
+    fig.update_layout(bargap=0.25)
+    show(fig, height=height)
+
+
+def pick_so(kind: str) -> str:
+    """SO 하나를 고르는 화면의 머리 줄 (캡션 + 선택 상자 한 줄, ?so=수원)."""
+    from utils.brief import so_order
+    sos = so_order()
+    if st.session_state.get("so") not in sos:
+        st.session_state["so"] = "강동"
+    c1, c2 = st.columns([5, 1], vertical_alignment="bottom")
+    c1.caption(f"직관 리포트 · {kind} · 가상 ISP 회사(SO 12곳) · 2025년 결산 (12월 기준) · 주소 ?so= 로 링크 공유")
+    return c2.selectbox("우리 SO", sos, key="so", bind="query-params", label_visibility="collapsed")
